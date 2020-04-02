@@ -1,38 +1,85 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+}
+/*------------Navigation------------*/
+#nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.navbar-brand img {
+  height: 40px;
+  padding-left: 15px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar-nav li {
+  padding: 0 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navbar-nav li a {
+  float: right;
+  text-align: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#nav-bar ul li a:hover {
+  color: #007bff !important;
 }
 
-.App-link {
-  color: #61dafb;
+.navbar {
+  background-color: #fff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar-toggler {
+  border: none !important;
+}
+
+.nav-link {
+  color: #555 !important;
+  font-weight: 600;
+  font-size: 16px;
+}
+/*----------Slider--------------*/
+#slider {
+  width: 100%;
+}
+
+.carousel-caption {
+  top: 85%;
+  transform: translateY(-50%);
+  bottom: initial !important;
+}
+
+.carousel-caption h5 {
+  color: #fff;
+  font-size: 42px;
+}
+
+/*----------------About---------------*/
+#about {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  color: #555;
+}
+#about .btn {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.about-content {
+  padding-top: 20px;
+}
+
+.skills-bar p {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.progress-bar {
+  border-radius: 16px;
+}
+
+.progress {
+  border-radius: 16px !important;
+  margin-bottom: 20px;
 }
