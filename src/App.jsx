@@ -18,8 +18,10 @@ function App() {
     <Router>
       <Container fluid className="m-0 p-0">
         <NavMenu></NavMenu>
-        <Route exact path="/" component={Homepage}></Route>
-        <Route exact path="/play" component={Play}></Route>
+        <div className="content">
+          <Route exact path="/" component={Homepage}></Route>
+          <Route exact path="/play" component={Play}></Route>
+        </div>
       </Container>
     </Router>
   )

@@ -14,8 +14,8 @@ class NavbarMenu extends Component {
           <img src="img/logo.jpg"></img>
         </Navbar.Brand>
         <Nav className="mr-auto">
-          <NavLink href="#">HOME</NavLink>
-          <NavLink href="#">PLAY</NavLink>
+          <NavLink href="/">HOME</NavLink>
+          <NavLink href="/Play">PLAY</NavLink>
           <NavLink href="#">SCOREBOARD</NavLink>
           <NavLink href="#">OUR TEAM</NavLink>
         </Nav>
