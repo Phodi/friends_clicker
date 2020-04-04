@@ -15,7 +15,7 @@ import Homepage from "./components/homepage/Homepage"
 function App() {
   return (
     <Router>
-      <Container fluid>
+      <Container fluid className="m-0 p-0">
         <NavMenu></NavMenu>
         <Route exact path="/" component={Homepage}></Route>
       </Container>
