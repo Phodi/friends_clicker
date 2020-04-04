@@ -1,13 +1,16 @@
 import React from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
 import "./App.css"
-import About from "./components/ui/About"
+import "bootstrap/dist/css/bootstrap.min.css"
+
+import Container from "react-bootstrap/Container"
+
+import Homepage from "./components/homepage/Homepage"
 
 function App() {
   return (
-    <div>
-      <About />>
-    </div>
+    <Container>
+      <Homepage />
+    </Container>
   )
 }
 
