@@ -3,8 +3,9 @@ import React, { Component } from "react"
 import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
 import NavLink from "react-bootstrap/NavLink"
+import { Link } from "react-router-dom/"
 
-import LoginMini from "./LoginMini"
+import Login from "../../Login"
 
 class NavbarMenu extends Component {
   render() {
@@ -14,12 +15,20 @@ class NavbarMenu extends Component {
           <img src="img/logo.jpg"></img>
         </Navbar.Brand>
         <Nav className="mr-auto">
-          <NavLink href="/">HOME</NavLink>
-          <NavLink href="/Play">PLAY</NavLink>
-          <NavLink href="#">SCOREBOARD</NavLink>
-          <NavLink href="#">OUR TEAM</NavLink>
+          <NavLink>
+            <Link to="/">HOME</Link>
+          </NavLink>
+          <NavLink>
+            <Link to="/play">PLAY</Link>
+          </NavLink>
+          <NavLink>
+            <Link to="#">SCOREBOARD</Link>
+          </NavLink>
+          <NavLink>
+            <Link to="#">OUR TEAM</Link>
+          </NavLink>
         </Nav>
-        <LoginMini></LoginMini>
+        {this.props.login.render()}
       </Navbar>
     )
   }
