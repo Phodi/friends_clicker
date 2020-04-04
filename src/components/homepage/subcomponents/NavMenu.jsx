@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
 import NavLink from "react-bootstrap/NavLink"
 
-import LoginMini from "../LoginMini"
+import LoginMini from "./LoginMini"
 
 class NavbarMenu extends Component {
   render() {

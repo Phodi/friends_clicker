@@ -11,6 +11,7 @@ import NavMenu from "./components/homepage/subcomponents/NavMenu"
 
 //Pages
 import Homepage from "./components/homepage/Homepage"
+import Play from "./components/play/Play"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Container fluid className="m-0 p-0">
         <NavMenu></NavMenu>
         <Route exact path="/" component={Homepage}></Route>
+        <Route exact path="/play" component={Play}></Route>
       </Container>
     </Router>
   )
