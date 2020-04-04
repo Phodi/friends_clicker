@@ -4,7 +4,7 @@ import "./play.css"
 class Play extends Component {
   constructor(props) {
     super(props)
-    this.state = { message: "SATAN", luckyNumber: 666, exp:0.0 } //เก็บตัวแปรต่างๆที่จะใช้ไว้ในนี้
+    this.state = { message: "SATAN", luckyNumber: 666, exp:0.0, level:1} //เก็บตัวแปรต่างๆที่จะใช้ไว้ในนี้
   }
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
   showStates = () => {
@@ -19,6 +19,11 @@ class Play extends Component {
   }
   addExp = () => {
     this.state.exp+=1.0;
+    this.calcLevel();
+    this.drawText();
+  }
+  calcLevel = () => {
+    if(this.state.exp>=100)this.state.level = parseInt(this.state.exp/100);
     this.drawText();
   }
   drawText = () =>{
@@ -26,7 +31,10 @@ class Play extends Component {
     var ctx = c.getContext("2d");
     ctx.clearRect(0, 0, 900, 500); //ล้างหน้า canvas
     ctx.font = "30px Arial";
-    ctx.fillText(this.state.exp, 10, 50);
+    ctx.fillText("EXP :", 10, 50);
+    ctx.fillText(this.state.exp, 90, 50);
+    ctx.fillText("Lv.", 150, 50);
+    ctx.fillText(this.state.level, 190, 50);
   }
 
   //แสดงผล HTML
