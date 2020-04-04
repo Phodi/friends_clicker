@@ -9,24 +9,87 @@ class LoginMini extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loggedIn: false,
+      processing: false,
       credentials: { email: "", password: "" },
-      token: "",
     }
   }
 
-  login = () => {
-    console.log(document.findById("form-email").val())
-    this.setState({ loggedIn: true })
+  componentDidUpdate() {}
+
+  login = async () => {
+    const axios = this.props.session.axios
+    const { email, password } = this.state.credentials
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.post("/users/me/login", {
+        email,
+        password,
+      })
+      if (resp.data.token) {
+        const user = await axios.get("/users/me", {
+          headers: { Authorization: resp.data.token },
+        })
+        this.props.setSession({
+          user: user.data.user,
+          credentials: this.state.credentials,
+          token: resp.data.token,
+          loggedIn: true,
+        })
+      }
+    } catch (error) {
+      resp = error
+      console.log("error :", error)
+    } finally {
+      if (resp.data.error) console.log("error :", resp.data.error)
+      if (resp.data.msg) console.log("msg :", resp.data.msg)
+      this.setState({ processing: false })
+    }
+  }
+
+  logout = async () => {
+    const axios = this.props.session.axios
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.get("/users/me/logout")
+      if (resp.data.token) {
+        this.props.setSession({ loggedIn: false })
+      }
+    } catch (error) {
+      resp = error
+      console.log("error :", error)
+    } finally {
+      if (resp.data.error) console.log("error :", resp.data.error)
+      if (resp.data.msg) console.log("msg :", resp.data.msg)
+      this.setState({ processing: false })
+    }
   }
 
   fieldChanged = (e) => {
-    console.log(e.target.name, e.target.value)
+    this.setState({
+      credentials: Object.assign(this.state.credentials, {
+        [e.target.name]: e.target.value,
+      }),
+    })
   }
 
   render() {
-    if (this.state.loggedIn) {
-      return <div>Logged In</div>
+    if (this.state.processing) {
+      return (
+        <div>{this.props.session.loggedIn ? "Logging out" : "Logging in"}</div>
+      )
+    }
+
+    if (this.props.session.loggedIn) {
+      return (
+        <div className="row">
+          <div className="col">{this.props.session.user.name}</div>
+          <div className="col">
+            <Button onClick={this.logout}>Logout</Button>
+          </div>
+        </div>
+      )
     }
 
     return (
