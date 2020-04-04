@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Navbar } from "react-bulma-components/"
+
 class NavbarMenu extends Component {
   render() {
     return (
