@@ -8,7 +8,7 @@ import Homepage from "./components/homepage/Homepage"
 
 function App() {
   return (
-    <Container>
+    <Container fluid>
       <Homepage />
     </Container>
   )

@@ -6,8 +6,7 @@ class Slider extends Component {
   }
   render() {
     return (
-      <div>
-        {" "}
+      <div id="slider">
         <div id="headerSlider" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
             <li
