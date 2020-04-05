@@ -28,6 +28,7 @@ class NavMenu extends Component {
         <Login
           session={this.props.session}
           setSession={this.props.setSession}
+          notifier={this.props.notifier}
         ></Login>
       </Navbar>
     )

@@ -5,7 +5,7 @@ import FormControl from "react-bootstrap/FormControl"
 
 import Button from "react-bootstrap/Button"
 
-class LoginMini extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,6 +15,62 @@ class LoginMini extends Component {
   }
 
   componentDidUpdate() {}
+
+  finalReport = (resp) => {
+    if (resp.data) {
+      if (resp.data.error) console.log("error :", resp.data.error)
+      if (resp.data.msg) console.log("msg :", resp.data.msg)
+    } else {
+      //Failed to connect
+      console.log("Failed to connect to the backend")
+      this.props.notifier.generate("aaa")
+    }
+  }
+
+  //Renew
+  componentDidMount() {
+    this.interval = null
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  setRenewInterval = () => {
+    clearInterval(this.interval)
+    this.interval = this.renewInterval()
+  }
+
+  //Renew token every 1.5 minutes
+  renewInterval = () => {
+    const interval = setInterval(() => {
+      this.renew()
+    }, 90000)
+    return () => clearInterval(interval)
+  }
+
+  renew = async () => {
+    if (!this.props.session.loggedIn) {
+      clearInterval(this.interval)
+      return
+    }
+    console.log("Renewing")
+    const axios = this.props.session.axios
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.get("/users/me/renew")
+      if (resp.data.token) {
+        this.props.setSession({ token: resp.data.token })
+      }
+    } catch (error) {
+      resp = error
+      this.props.setSession({ loggedIn: false })
+      console.log("error :", error)
+    } finally {
+      this.finalReport(resp)
+      this.setState({ processing: false })
+    }
+  }
 
   login = async () => {
     const axios = this.props.session.axios
@@ -36,18 +92,20 @@ class LoginMini extends Component {
           token: resp.data.token,
           loggedIn: true,
         })
+        this.setRenewInterval()
       }
     } catch (error) {
       resp = error
       console.log("error :", error)
     } finally {
-      if (resp.data.error) console.log("error :", resp.data.error)
-      if (resp.data.msg) console.log("msg :", resp.data.msg)
+      this.finalReport(resp)
+
       this.setState({ processing: false })
     }
   }
 
   logout = async () => {
+    clearInterval(this.interval)
     const axios = this.props.session.axios
     this.setState({ processing: true })
     let resp = null
@@ -60,9 +118,7 @@ class LoginMini extends Component {
       resp = error
       console.log("error :", error)
     } finally {
-      if (resp.data.error) console.log("error :", resp.data.error)
-      if (resp.data.msg) console.log("msg :", resp.data.msg)
-      this.setState({ processing: false })
+      this.finalReport(resp)
     }
   }
 
@@ -118,4 +174,4 @@ class LoginMini extends Component {
   }
 }
 
-export default LoginMini
+export default Login

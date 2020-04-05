@@ -8,6 +8,8 @@ import Container from "react-bootstrap/Container"
 
 //Components
 import NavMenu from "./components/NavMenu"
+import Notifier from "./components/Notifier"
+import { AlertList } from "react-bs-notifier"
 
 //Pages
 import Homepage from "./components/homepage/Homepage"
@@ -32,6 +34,12 @@ class App extends Component {
         token: "",
         user: { _id: "", name: "", emai: "", stats: {} },
       },
+      notifier: new Notifier({
+        setAlerts: (newAlert) => {
+          this.setState({ alerts: newAlert })
+        },
+      }),
+      alerts: [],
     }
   }
 
@@ -49,7 +57,15 @@ class App extends Component {
           <NavMenu
             session={this.state.session}
             setSession={this.setSession}
+            notifier={this.state.notifier}
           ></NavMenu>
+          <AlertList
+            position={this.state.notifier.state.position}
+            alerts={this.state.alerts}
+            timeout={this.state.notifier.state.timeout}
+            dismissTitle="Dismiss"
+            onDismiss={this.state.notifier.onAlertDismissed.bind(this)}
+          />
           <div className="content">
             <Route
               exact
