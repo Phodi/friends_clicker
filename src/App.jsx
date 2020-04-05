@@ -15,7 +15,7 @@ import Play from "./components/play/Play"
 import About from "./components/about/About"
 
 import axios from "axios"
-const API_URL = "https://cpe-clicker-api.herokuapp.com/api"
+const API_URL = "/api"
 
 class App extends Component {
   constructor(props) {
