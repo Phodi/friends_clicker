@@ -84,8 +84,10 @@ class LoginMini extends Component {
     if (this.props.session.loggedIn) {
       return (
         <div className="row">
-          <div className="col">{this.props.session.user.name}</div>
-          <div className="col">
+          <div className="col justify-content-center align-items-center align-self-center">
+            {this.props.session.user.name}
+          </div>
+          <div className="col justify-content-center align-items-center align-self-center">
             <Button onClick={this.logout}>Logout</Button>
           </div>
         </div>
