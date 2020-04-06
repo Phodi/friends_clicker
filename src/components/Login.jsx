@@ -183,6 +183,14 @@ class Login extends Component {
         <Button variant="outline-info" onClick={this.login}>
           Login
         </Button>
+        <Button
+          variant="basic"
+          onClick={() => {
+            console.log("Register please")
+          }}
+        >
+          Register
+        </Button>
       </Form>
     )
   }
