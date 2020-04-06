@@ -13,9 +13,11 @@ import { AlertList } from "react-bs-notifier"
 //Pages
 import Homepage from "./components/homepage/Homepage"
 import Play from "./components/play/Play"
+import Scoreboard from "./components/scoreboard/Scoreboard"
 import About from "./components/about/About"
 
 import axios from "axios"
+import ScoreboardActual from "./components/scoreboard/ScoreboardActual"
 const API_URL = "/api"
 
 class App extends Component {
@@ -106,6 +108,16 @@ class App extends Component {
                   session={this.state.session}
                   setSession={this.setSession}
                 ></Play>
+              )}
+            ></Route>
+            <Route
+              exact
+              path="/scoreboard"
+              render={() => (
+                <Scoreboard
+                  session={this.state.session}
+                  alert={this.generateAlert}
+                ></Scoreboard>
               )}
             ></Route>
             <Route

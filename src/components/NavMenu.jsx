@@ -19,7 +19,7 @@ class NavMenu extends Component {
             <Link to="/play">PLAY</Link>
           </NavLink>
           <NavLink>
-            <Link to="#">SCOREBOARD</Link>
+            <Link to="/scoreboard">SCOREBOARD</Link>
           </NavLink>
           <NavLink>
             <Link to="/about">OUR TEAM</Link>
