@@ -5,6 +5,8 @@ import FormControl from "react-bootstrap/FormControl"
 
 import Button from "react-bootstrap/Button"
 
+const validator = require("validator")
+
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -18,12 +20,11 @@ class Login extends Component {
 
   finalReport = (resp) => {
     if (resp.data) {
-      if (resp.data.error) console.log("error :", resp.data.error)
-      if (resp.data.msg) console.log("msg :", resp.data.msg)
+      if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
+      if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
     } else {
       //Failed to connect
-      console.log("Failed to connect to the backend")
-      this.props.notifier.generate("aaa")
+      this.props.alert("danger", "Error!", "Failed to connect to the API")
     }
   }
 
@@ -75,6 +76,18 @@ class Login extends Component {
   login = async () => {
     const axios = this.props.session.axios
     const { email, password } = this.state.credentials
+    if (!validator.isEmail(email)) {
+      this.props.alert(
+        "danger",
+        "Invalid input",
+        "Please enter valid email address"
+      )
+      return
+    }
+    if (password === "") {
+      this.props.alert("danger", "Invalid input", "Please enter password")
+      return
+    }
     this.setState({ processing: true })
     let resp = null
     try {
@@ -119,6 +132,7 @@ class Login extends Component {
       console.log("error :", error)
     } finally {
       this.finalReport(resp)
+      this.setState({ processing: false })
     }
   }
 

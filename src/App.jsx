@@ -8,7 +8,6 @@ import Container from "react-bootstrap/Container"
 
 //Components
 import NavMenu from "./components/NavMenu"
-import Notifier from "./components/Notifier"
 import { AlertList } from "react-bs-notifier"
 
 //Pages
@@ -34,12 +33,34 @@ class App extends Component {
         token: "",
         user: { _id: "", name: "", emai: "", stats: {} },
       },
-      notifier: new Notifier({
-        setAlerts: (newAlert) => {
-          this.setState({ alerts: newAlert })
-        },
-      }),
       alerts: [],
+    }
+  }
+
+  generateAlert = (type, head, body) => {
+    const newAlert = {
+      id: new Date().getTime(),
+      type: type,
+      headline: `${head}`,
+      message: body,
+    }
+
+    this.setState({
+      alerts: [...this.state.alerts, newAlert],
+    })
+  }
+
+  onAlertDismissed(alert) {
+    const alerts = this.state.alerts
+
+    // find the index of the alert that was dismissed
+    const idx = alerts.indexOf(alert)
+
+    if (idx >= 0) {
+      // remove the alert from the array
+      this.setState({
+        alerts: [...alerts.slice(0, idx), ...alerts.slice(idx + 1)],
+      })
     }
   }
 
@@ -57,14 +78,14 @@ class App extends Component {
           <NavMenu
             session={this.state.session}
             setSession={this.setSession}
-            notifier={this.state.notifier}
+            alert={this.generateAlert}
           ></NavMenu>
           <AlertList
-            position={this.state.notifier.state.position}
+            position="top-right"
             alerts={this.state.alerts}
-            timeout={this.state.notifier.state.timeout}
-            dismissTitle="Dismiss"
-            onDismiss={this.state.notifier.onAlertDismissed.bind(this)}
+            timeout={2000}
+            dismissTitle="dismiss"
+            onDismiss={this.onAlertDismissed.bind(this)}
           />
           <div className="content">
             <Route
