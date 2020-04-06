@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Login from "../../Login"
+import Login from "./Login"
 import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
 import NavLink from "react-bootstrap/NavLink"
@@ -19,15 +19,16 @@ class NavMenu extends Component {
             <Link to="/play">PLAY</Link>
           </NavLink>
           <NavLink>
-            <Link to="#">SCOREBOARD</Link>
+            <Link to="/scoreboard">SCOREBOARD</Link>
           </NavLink>
           <NavLink>
-            <Link to="#">OUR TEAM</Link>
+            <Link to="/about">OUR TEAM</Link>
           </NavLink>
         </Nav>
         <Login
           session={this.props.session}
           setSession={this.props.setSession}
+          alert={this.props.alert}
         ></Login>
       </Navbar>
     )

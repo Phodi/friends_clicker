@@ -5,7 +5,9 @@ import FormControl from "react-bootstrap/FormControl"
 
 import Button from "react-bootstrap/Button"
 
-class LoginMini extends Component {
+const validator = require("validator")
+
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,9 +18,76 @@ class LoginMini extends Component {
 
   componentDidUpdate() {}
 
+  finalReport = (resp) => {
+    if (resp.data) {
+      if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
+      if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
+    } else {
+      //Failed to connect
+      this.props.alert("danger", "Error!", "Failed to connect to the API")
+    }
+  }
+
+  //Renew
+  componentDidMount() {
+    this.interval = null
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  setRenewInterval = () => {
+    clearInterval(this.interval)
+    this.interval = this.renewInterval()
+  }
+
+  //Renew token every 1.5 minutes
+  renewInterval = () => {
+    const interval = setInterval(() => {
+      this.renew()
+    }, 90000)
+    return () => clearInterval(interval)
+  }
+
+  renew = async () => {
+    if (!this.props.session.loggedIn) {
+      clearInterval(this.interval)
+      return
+    }
+    console.log("Renewing")
+    const axios = this.props.session.axios
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.get("/users/me/renew")
+      if (resp.data.token) {
+        this.props.setSession({ token: resp.data.token })
+      }
+    } catch (error) {
+      resp = error
+      this.props.setSession({ loggedIn: false })
+      console.log("error :", error)
+    } finally {
+      this.finalReport(resp)
+      this.setState({ processing: false })
+    }
+  }
+
   login = async () => {
     const axios = this.props.session.axios
     const { email, password } = this.state.credentials
+    if (!validator.isEmail(email)) {
+      this.props.alert(
+        "danger",
+        "Invalid input",
+        "Please enter valid email address"
+      )
+      return
+    }
+    if (password === "") {
+      this.props.alert("danger", "Invalid input", "Please enter password")
+      return
+    }
     this.setState({ processing: true })
     let resp = null
     try {
@@ -36,18 +105,20 @@ class LoginMini extends Component {
           token: resp.data.token,
           loggedIn: true,
         })
+        this.setRenewInterval()
       }
     } catch (error) {
       resp = error
       console.log("error :", error)
     } finally {
-      if (resp.data.error) console.log("error :", resp.data.error)
-      if (resp.data.msg) console.log("msg :", resp.data.msg)
+      this.finalReport(resp)
+
       this.setState({ processing: false })
     }
   }
 
   logout = async () => {
+    clearInterval(this.interval)
     const axios = this.props.session.axios
     this.setState({ processing: true })
     let resp = null
@@ -60,8 +131,7 @@ class LoginMini extends Component {
       resp = error
       console.log("error :", error)
     } finally {
-      if (resp.data.error) console.log("error :", resp.data.error)
-      if (resp.data.msg) console.log("msg :", resp.data.msg)
+      this.finalReport(resp)
       this.setState({ processing: false })
     }
   }
@@ -84,8 +154,10 @@ class LoginMini extends Component {
     if (this.props.session.loggedIn) {
       return (
         <div className="row">
-          <div className="col">{this.props.session.user.name}</div>
-          <div className="col">
+          <div className="col justify-content-center align-items-center align-self-center">
+            {this.props.session.user.name}
+          </div>
+          <div className="col justify-content-center align-items-center align-self-center">
             <Button onClick={this.logout}>Logout</Button>
           </div>
         </div>
@@ -116,4 +188,4 @@ class LoginMini extends Component {
   }
 }
 
-export default LoginMini
+export default Login
