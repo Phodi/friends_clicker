@@ -1,57 +1,29 @@
 import React, { Component } from "react"
+import Sketch from "react-p5";
 import "./play.css"
+import heart from "./img/heart.png";
 
 class Play extends Component {
   constructor(props) {
     super(props)
-    this.state = { message: "SATAN", luckyNumber: 666, exp:0.0, level:1} //เก็บตัวแปรต่างๆที่จะใช้ไว้ในนี้
+    this.state = { message: "SATAN", exp:0.0, level:1} //เก็บตัวแปรต่างๆที่จะใช้ไว้ในนี้
   }
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
-  showStates = () => {
-    //แสดงตัวแปรที่เก็บไว้ใน this.state ทาง console
-    console.log("Hello World!")
-    console.log("message is " + this.state.message)
-    console.log("luckyNumber is " + this.state.luckyNumber)
-  }
-  editStates = () => {
-    //แก้ไข ตัวแปรใน this.state
-    this.setState({ message: "KUY", luckyNumber: 69 })
-  }
-  addExp = () => {
-    this.state.exp+=1.0;
-    this.calcLevel();
-    this.drawText();
-  }
-  calcLevel = () => {
-    if(this.state.exp>=100)this.state.level = parseInt(this.state.exp/100);
-    this.drawText();
-  }
-  drawText = () =>{
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    ctx.clearRect(0, 0, 900, 500); //ล้างหน้า canvas
-    ctx.font = "30px Arial";
-    ctx.fillText("EXP :", 10, 50);
-    ctx.fillText(this.state.exp, 90, 50);
-    ctx.fillText("Lv.", 150, 50);
-    ctx.fillText(this.state.level, 190, 50);
-  }
-
-  //แสดงผล HTML
+  x = 50;
+  y = 50;
+ 
+  setup = (p5, canvasParentRef) => {
+    p5.createCanvas(500, 500).parent(canvasParentRef); // use parent to render canvas in this ref (without that p5 render this canvas outside your component)
+  };
+  draw = p5 => {
+    p5.background(0);
+    p5.ellipse(this.x, this.y, 70, 70);
+    // NOTE: Do not use setState in draw function or in functions that is executed in draw function... pls use normal variables or class properties for this purposes
+    this.x++;
+  };
+ 
   render() {
-    return (
-      <div>
-        {<body>
-            <div id ="canvas-container">
-              <canvas id ="myCanvas" width="900" height="500">
-              </canvas>
-            </div>
-        </body>}
-        <button onClick={this.showStates}>Run showStates()</button>{" "}
-        <button onClick={this.editStates}>Run editStates()</button>
-        <button onClick={this.addExp}>AddExp()</button>
-      </div>
-    )
+    return <Sketch setup={this.setup} draw={this.draw} />;
   }
 }
 
