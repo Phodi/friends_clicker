@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import "./about.css" //Import css จากไฟล์นี้ (จะใช้อะไรก้อไปเพิ่มเอา)
 
+import Sus from "./component/sus"
+
 class Play extends Component {
   constructor(props) {
     super(props)
@@ -23,12 +25,16 @@ class Play extends Component {
     return (
       <div>
         {/* เขียน HTML ต่างๆจรงนี้ */}
+        <Sus></Sus>
+
+        
         {/* เวลาตั้ง class HTML ให้ใช้ className แทน */}
         {/* เช่น <div class="kuy"> เป็น <div className="kuy"> */}
         {/* ตัวอย่างลบได้ */}
         {"Hello World!"}
         <button onClick={this.showStates}>Run showStates()</button>{" "}
         <button onClick={this.editStates}>Run editStates()</button>
+        
       </div>
     )
   }
