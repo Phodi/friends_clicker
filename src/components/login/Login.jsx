@@ -2,8 +2,9 @@ import React, { Component } from "react"
 
 import Form from "react-bootstrap/Form"
 import FormControl from "react-bootstrap/FormControl"
-
 import Button from "react-bootstrap/Button"
+
+import Regist from "./Register"
 
 const validator = require("validator")
 
@@ -13,6 +14,7 @@ class Login extends Component {
     this.state = {
       processing: false,
       credentials: { email: "", password: "" },
+      showRegist: false,
     }
   }
 
@@ -26,6 +28,15 @@ class Login extends Component {
       //Failed to connect
       this.props.alert("danger", "Error!", "Failed to connect to the API")
     }
+  }
+
+  //Regist modal
+  triggerRegist = () => {
+    this.setState({ showRegist: true })
+  }
+
+  closeRegist = () => {
+    this.setState({ showRegist: false })
   }
 
   //Renew
@@ -165,25 +176,42 @@ class Login extends Component {
     }
 
     return (
-      <Form inline>
-        <FormControl
-          name="email"
-          type="email"
-          placeholder="email"
-          className="mr-sm-2"
-          onChange={this.fieldChanged}
-        />
-        <FormControl
-          name="password"
-          type="password"
-          placeholder="password"
-          className="mr-sm-2"
-          onChange={this.fieldChanged}
-        />
-        <Button variant="outline-info" onClick={this.login}>
-          Login
-        </Button>
-      </Form>
+      <div>
+        <Form inline>
+          <FormControl
+            name="email"
+            type="email"
+            placeholder="email"
+            className="mr-sm-2"
+            onChange={this.fieldChanged}
+          />
+          <FormControl
+            name="password"
+            type="password"
+            placeholder="password"
+            className="mr-sm-2"
+            onChange={this.fieldChanged}
+          />
+          <Button variant="outline-info" onClick={this.login}>
+            Login
+          </Button>
+          <Button
+            variant="basic"
+            onClick={() => {
+              this.triggerRegist()
+            }}
+          >
+            Register
+          </Button>
+        </Form>
+        <Regist
+          show={this.state.showRegist}
+          hide={this.closeRegist}
+          session={this.props.session}
+          setSession={this.props.setSession}
+          alert={this.props.alert}
+        ></Regist>
+      </div>
     )
   }
 }

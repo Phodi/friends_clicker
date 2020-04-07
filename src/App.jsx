@@ -4,12 +4,13 @@ import { Route, Switch } from "react-router-dom"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 import Container from "react-bootstrap/Container"
 
 //Components
 import NavMenu from "./components/NavMenu"
 import { AlertList } from "react-bs-notifier"
-import { Modal } from "react-bootstrap"
 
 //Pages
 import Homepage from "./components/homepage/Homepage"
@@ -18,7 +19,6 @@ import Scoreboard from "./components/scoreboard/Scoreboard"
 import About from "./components/about/About"
 
 import axios from "axios"
-import ScoreboardActual from "./components/scoreboard/ScoreboardActual"
 const API_URL = "/api"
 
 class App extends Component {
@@ -41,7 +41,7 @@ class App extends Component {
     }
   }
 
-  generateAlert = (type, head, body) => {
+  generateAlert = async (type, head, body) => {
     const newAlert = {
       id: new Date().getTime(),
       type: type,
@@ -66,10 +66,6 @@ class App extends Component {
         alerts: [...alerts.slice(0, idx), ...alerts.slice(idx + 1)],
       })
     }
-  }
-
-  triggerRegist() {
-    this.setState({ showRegist: true })
   }
 
   setSession = (session) => {
@@ -138,14 +134,6 @@ class App extends Component {
               )}
             ></Route>
           </div>
-          <Modal
-            show={this.state.showRegist}
-            onDismiss={() => this.setState({ showRegist: false })}
-          >
-            <Modal.Header>Hi</Modal.Header>
-            <Modal.Body>asdfasdf</Modal.Body>
-            <Modal.Footer>This is the footer</Modal.Footer>
-          </Modal>
         </Container>
       </Switch>
     )

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Login from "./Login"
+import Login from "./login/Login"
 import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
 import NavLink from "react-bootstrap/NavLink"
