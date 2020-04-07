@@ -186,7 +186,7 @@ class Login extends Component {
           <Button
             variant="basic"
             onClick={() => {
-              console.log("showRegister: true")
+              this.props.triggerRegist()
             }}
           >
             Register

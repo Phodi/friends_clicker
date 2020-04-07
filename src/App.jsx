@@ -5,12 +5,12 @@ import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 import Container from "react-bootstrap/Container"
 
 //Components
 import NavMenu from "./components/NavMenu"
 import { AlertList } from "react-bs-notifier"
-import { Modal } from "react-bootstrap"
 
 //Pages
 import Homepage from "./components/homepage/Homepage"
@@ -68,8 +68,12 @@ class App extends Component {
     }
   }
 
-  triggerRegist() {
+  triggerRegist = () => {
     this.setState({ showRegist: true })
+  }
+
+  closeRegist = () => {
+    this.setState({ showRegist: false })
   }
 
   setSession = (session) => {
@@ -138,16 +142,21 @@ class App extends Component {
               )}
             ></Route>
           </div>
-          <Modal
-            show={this.state.showRegist}
-            onDismiss={() => this.setState({ showRegist: false })}
-          >
-            <Modal.Header>Hi</Modal.Header>
-            <Modal.Body>asdfasdf</Modal.Body>
-            <Modal.Footer>This is the footer</Modal.Footer>
+          <Modal show={this.state.showRegist} onHide={this.closeRegist}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modal title</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <p>Modal body text goes here.</p>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary">Close</Button>
+              <Button variant="primary">Save changes</Button>
+            </Modal.Footer>
           </Modal>
         </Container>
-        <Modal show={true}>Hi</Modal>
       </Switch>
     )
   }
