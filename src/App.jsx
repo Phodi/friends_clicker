@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container"
 //Components
 import NavMenu from "./components/NavMenu"
 import { AlertList } from "react-bs-notifier"
+import { Modal } from "react-bootstrap"
 
 //Pages
 import Homepage from "./components/homepage/Homepage"
@@ -36,6 +37,7 @@ class App extends Component {
         user: { _id: "", name: "", emai: "", stats: {} },
       },
       alerts: [],
+      showRegist: false,
     }
   }
 
@@ -66,6 +68,10 @@ class App extends Component {
     }
   }
 
+  triggerRegist() {
+    this.setState({ showRegist: true })
+  }
+
   setSession = (session) => {
     this.setState({ session: Object.assign(this.state.session, session) })
     this.state.session.axios.defaults.headers.common[
@@ -81,6 +87,7 @@ class App extends Component {
             session={this.state.session}
             setSession={this.setSession}
             alert={this.generateAlert}
+            triggerRegist={this.triggerRegist}
           ></NavMenu>
           <AlertList
             position="top-right"
@@ -131,6 +138,14 @@ class App extends Component {
               )}
             ></Route>
           </div>
+          <Modal
+            show={this.state.showRegist}
+            onDismiss={() => this.setState({ showRegist: false })}
+          >
+            <Modal.Header>Hi</Modal.Header>
+            <Modal.Body>asdfasdf</Modal.Body>
+            <Modal.Footer>This is the footer</Modal.Footer>
+          </Modal>
         </Container>
       </Switch>
     )

@@ -29,6 +29,7 @@ class NavMenu extends Component {
           session={this.props.session}
           setSession={this.props.setSession}
           alert={this.props.alert}
+          triggerRegist={this.props.triggerRegist}
         ></Login>
       </Navbar>
     )
