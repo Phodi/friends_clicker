@@ -4,6 +4,8 @@ import Form from "react-bootstrap/Form"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
+import Regist from "./Register"
+
 const validator = require("validator")
 
 class Login extends Component {
@@ -12,6 +14,7 @@ class Login extends Component {
     this.state = {
       processing: false,
       credentials: { email: "", password: "" },
+      showRegist: false,
     }
   }
 
@@ -25,6 +28,15 @@ class Login extends Component {
       //Failed to connect
       this.props.alert("danger", "Error!", "Failed to connect to the API")
     }
+  }
+
+  //Regist modal
+  triggerRegist = () => {
+    this.setState({ showRegist: true })
+  }
+
+  closeRegist = () => {
+    this.setState({ showRegist: false })
   }
 
   //Renew
@@ -186,12 +198,19 @@ class Login extends Component {
           <Button
             variant="basic"
             onClick={() => {
-              this.props.triggerRegist()
+              this.triggerRegist()
             }}
           >
             Register
           </Button>
         </Form>
+        <Regist
+          show={this.state.showRegist}
+          hide={this.closeRegist}
+          session={this.props.session}
+          setSession={this.props.setSession}
+          alert={this.props.alert}
+        ></Regist>
       </div>
     )
   }

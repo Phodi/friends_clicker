@@ -41,7 +41,7 @@ class App extends Component {
     }
   }
 
-  generateAlert = (type, head, body) => {
+  generateAlert = async (type, head, body) => {
     const newAlert = {
       id: new Date().getTime(),
       type: type,
@@ -66,14 +66,6 @@ class App extends Component {
         alerts: [...alerts.slice(0, idx), ...alerts.slice(idx + 1)],
       })
     }
-  }
-
-  triggerRegist = () => {
-    this.setState({ showRegist: true })
-  }
-
-  closeRegist = () => {
-    this.setState({ showRegist: false })
   }
 
   setSession = (session) => {
@@ -142,20 +134,6 @@ class App extends Component {
               )}
             ></Route>
           </div>
-          <Modal show={this.state.showRegist} onHide={this.closeRegist}>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal title</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-              <p>Modal body text goes here.</p>
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="secondary">Close</Button>
-              <Button variant="primary">Save changes</Button>
-            </Modal.Footer>
-          </Modal>
         </Container>
       </Switch>
     )
