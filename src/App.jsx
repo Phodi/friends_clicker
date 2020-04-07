@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 
+import Modal from "react-bootstrap/Modal"
 import Container from "react-bootstrap/Container"
 
 //Components
@@ -17,7 +18,6 @@ import Scoreboard from "./components/scoreboard/Scoreboard"
 import About from "./components/about/About"
 
 import axios from "axios"
-import ScoreboardActual from "./components/scoreboard/ScoreboardActual"
 const API_URL = "/api"
 
 class App extends Component {
@@ -132,6 +132,7 @@ class App extends Component {
             ></Route>
           </div>
         </Container>
+        <Modal show={true}>Hi</Modal>
       </Switch>
     )
   }

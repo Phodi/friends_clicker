@@ -2,7 +2,6 @@ import React, { Component } from "react"
 
 import Form from "react-bootstrap/Form"
 import FormControl from "react-bootstrap/FormControl"
-
 import Button from "react-bootstrap/Button"
 
 const validator = require("validator")
@@ -165,33 +164,35 @@ class Login extends Component {
     }
 
     return (
-      <Form inline>
-        <FormControl
-          name="email"
-          type="email"
-          placeholder="email"
-          className="mr-sm-2"
-          onChange={this.fieldChanged}
-        />
-        <FormControl
-          name="password"
-          type="password"
-          placeholder="password"
-          className="mr-sm-2"
-          onChange={this.fieldChanged}
-        />
-        <Button variant="outline-info" onClick={this.login}>
-          Login
-        </Button>
-        <Button
-          variant="basic"
-          onClick={() => {
-            console.log("Register please")
-          }}
-        >
-          Register
-        </Button>
-      </Form>
+      <div>
+        <Form inline>
+          <FormControl
+            name="email"
+            type="email"
+            placeholder="email"
+            className="mr-sm-2"
+            onChange={this.fieldChanged}
+          />
+          <FormControl
+            name="password"
+            type="password"
+            placeholder="password"
+            className="mr-sm-2"
+            onChange={this.fieldChanged}
+          />
+          <Button variant="outline-info" onClick={this.login}>
+            Login
+          </Button>
+          <Button
+            variant="basic"
+            onClick={() => {
+              console.log("showRegister: true")
+            }}
+          >
+            Register
+          </Button>
+        </Form>
+      </div>
     )
   }
 }
