@@ -21,13 +21,13 @@ class Aboutus extends Component{
                   <Card>
                   
                     
-                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/image0.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   <Card.Body>
                   <div>
                   <Flip left cascade>
-                  Hello! I'm the body1
+                  <p>Nitiwit Wachirawiroon 610610594</p>
                   </Flip>
                   </div>
                   </Card.Body>
@@ -46,14 +46,14 @@ class Aboutus extends Component{
                   <Card>
                 
                     
-                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/IMG_25610806_181527.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
                   <Card.Body>
                   <div>
                   <Flip left cascade>
-                  Hello! I'm the body2
+                  Parinya Khongkhaphet 610610597
                   </Flip>
                   </div>
                   </Card.Body>
@@ -71,13 +71,13 @@ class Aboutus extends Component{
                 <Card>
                   
                     
-                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/phodi.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
                   <Card.Body><div>
                   <Flip left cascade>
-                  Hello! I'm the body3
+                  Phodi Phoocharoen 610610601
                   </Flip>
                   </div></Card.Body>
                   
