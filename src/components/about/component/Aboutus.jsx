@@ -2,8 +2,6 @@ import React, { Component } from "react"
 import Card from "react-bootstrap/Card";
 import Flip from 'react-reveal/Flip';
 import Fade from 'react-reveal/Fade';
-
-
 class Aboutus extends Component{
     constructor(props) {
         super(props)
@@ -11,10 +9,9 @@ class Aboutus extends Component{
       }
    render(){
        return(
-         
         <div>
           <center>
-            <h1 color="red">Our Team</h1>
+          
             <div class ="container">
               <div class="row">
                 <div class="col-md-4">
@@ -49,7 +46,7 @@ class Aboutus extends Component{
                   <Card>
                 
                     
-                  <img src="./img/IMG_20160916_092828.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
@@ -74,7 +71,7 @@ class Aboutus extends Component{
                 <Card>
                   
                     
-                  <img src="./img/phodi3.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
