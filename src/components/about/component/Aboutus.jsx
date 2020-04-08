@@ -21,7 +21,7 @@ class Aboutus extends Component{
                   <Card>
                   
                     
-                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/image0.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   <Card.Body>
@@ -46,7 +46,7 @@ class Aboutus extends Component{
                   <Card>
                 
                     
-                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/IMG_25610806_181527.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
@@ -71,7 +71,7 @@ class Aboutus extends Component{
                 <Card>
                   
                     
-                  <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/phodi.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
