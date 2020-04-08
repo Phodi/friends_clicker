@@ -30,7 +30,7 @@ export default class Edit extends Component {
     }
   }
 
-  register = async () => {
+  update = async () => {
     const alert = this.props.alert
     const { username, email, password, password2 } = this.state
 
@@ -179,8 +179,8 @@ export default class Edit extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="primary" onClick={this.register}>
-            Register
+          <Button variant="primary" onClick={this.update}>
+            Update
           </Button>
           <Button variant="secondary" onClick={this.props.hide}>
             Close
