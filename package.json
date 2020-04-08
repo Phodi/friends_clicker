@@ -9,7 +9,11 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "mdbreact": "^4.25.5",
+=======
+    "js-cookie": "^2.2.1",
+>>>>>>> 1a0e1c8760ac46da66fd87acfb2540ffbae76008
 =======
     "js-cookie": "^2.2.1",
 >>>>>>> 1a0e1c8760ac46da66fd87acfb2540ffbae76008
