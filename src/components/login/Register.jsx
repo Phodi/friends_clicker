@@ -160,7 +160,7 @@ export default class Register extends Component {
                 onChange={this.fieldChanged}
               />
             </Col>
-            <Col xs={5}>Password should be at least 4 characters</Col>
+            <Col xs={5}>Password should be at least 6 characters</Col>
           </Row>
           <Row className="mb-2">
             <Col xs={2}>Confirm Password</Col>

@@ -75,10 +75,8 @@ export default class Edit extends Component {
       console.log("resp :", resp)
       if (resp.data) {
         if (resp.data.data) {
-          if (resp.data.data.token) {
-            this.props.setSession({ loggedIn: true })
+          if (resp.data.data.user) {
             this.props.setSession({
-              token: resp.data.data.token,
               user: resp.data.data.user,
             })
             this.props.hide()
@@ -132,7 +130,7 @@ export default class Edit extends Component {
                 autoComplete="off"
                 name="username"
                 type="text"
-                value={this.props.session.user.name}
+                defaultValue={this.props.session.user.name}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />
@@ -149,7 +147,7 @@ export default class Edit extends Component {
                 name="email"
                 type="email"
                 placeholder="email"
-                value={this.props.session.user.email}
+                defaultValue={this.props.session.user.email}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />
@@ -168,7 +166,7 @@ export default class Edit extends Component {
                 onChange={this.fieldChanged}
               />
             </Col>
-            <Col xs={5}>Password should be at least 4 characters</Col>
+            <Col xs={5}>Password should be at least 6 characters</Col>
           </Row>
           <Row className="mb-2">
             <Col xs={2}>Confirm Password</Col>
