@@ -120,7 +120,7 @@ export default class Edit extends Component {
     return (
       <Modal size="lg" disabled show={this.props.show} onHide={this.props.hide}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
+          <Modal.Title>Edit Account</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="mb-2">
