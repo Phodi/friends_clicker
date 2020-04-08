@@ -67,12 +67,12 @@ export default class Register extends Component {
       resp = await axios.post("/users", { name: username, email, password })
       console.log("resp :", resp)
       if (resp.data) {
-        if (resp.data.data) {
-          if (resp.data.data.token) {
+        if (resp.data) {
+          if (resp.data.token) {
             this.props.setSession({ loggedIn: true })
             this.props.setSession({
-              token: resp.data.data.token,
-              user: resp.data.data.user,
+              token: resp.data.token,
+              user: resp.data.user,
             })
             this.props.hide()
           }
