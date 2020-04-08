@@ -20,6 +20,13 @@ export default class Edit extends Component {
     }
   }
 
+  componentDidMount = () => {
+    this.setState({
+      username: this.props.session.user.name,
+      email: this.props.session.credentials.email,
+    })
+  }
+
   finalReport = (resp) => {
     if (resp.data) {
       if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
@@ -50,8 +57,8 @@ export default class Edit extends Component {
     }
 
     //Validate password
-    if (password.length < 4) {
-      alert("info", "Password", "Password must have at least 4 characters")
+    if (password.length < 6) {
+      alert("info", "Password", "Password must have at least 6 characters")
       return
     }
     if (password !== password2) {
@@ -125,7 +132,7 @@ export default class Edit extends Component {
                 autoComplete="off"
                 name="username"
                 type="text"
-                placeholder={this.props.session.user.name}
+                value={this.props.session.user.name}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />
@@ -141,7 +148,8 @@ export default class Edit extends Component {
                 autoComplete="off"
                 name="email"
                 type="email"
-                placeholder={this.props.session.user.email}
+                placeholder="email"
+                value={this.props.session.user.email}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />

@@ -50,8 +50,8 @@ export default class Register extends Component {
     }
 
     //Validate password
-    if (password.length < 4) {
-      alert("info", "Password", "Password must have at least 4 characters")
+    if (password.length < 6) {
+      alert("info", "Password", "Password must have at least 6 characters")
       return
     }
     if (password !== password2) {
