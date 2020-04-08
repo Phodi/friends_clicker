@@ -4,27 +4,36 @@ import "./play.css"
 
 class Play extends Component {
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
-  x = 50
-  y = 50
+  score = 0;
+  img = null;
+  heartX = 450;
+  heartY = 225;
 
-  img = null
   preload = (p5) => {
-    this.img = p5.loadImage("/play/img/heart.png")
+    this.img = p5.loadImage("/game/img/heart.png")
   }
 
   setup = (p5, canvasParentRef) => {
-    p5.createCanvas(500, 500).parent(canvasParentRef) // use parent to render canvas in this ref (without that p5 render this canvas outside your component)
+    p5.createCanvas(1000, 550).parent(canvasParentRef)
   }
   draw = (p5) => {
-    p5.background(0)
-    p5.ellipse(this.x, this.y, 70, 70)
-    p5.image(this.img, 0, 0, 500, 500)
-    // NOTE: Do not use setState in draw function or in functions that is executed in draw function... pls use normal variables or class properties for this purposes
-    this.x++
+    p5.background(100);
+    p5.image(this.img, this.heartX, this.heartY, 100, 100);
+    p5.textSize(50);
+    p5.text(this.score, 50, 50);
+  }
+
+  mousePressed = (p5) => {
+    if(p5.mouseX > this.heartX && p5.mouseX < this.heartX + 100 && p5.mouseY > this.heartY && p5.mouseY < this.heartY+100) {
+      this.score++;
+    }
+
   }
 
   render() {
-    return <Sketch preload={this.preload} setup={this.setup} draw={this.draw} />
+    return <div id="canvas-container">
+      <Sketch preload={this.preload} setup={this.setup} draw={this.draw} mousePressed={this.mousePressed}/>
+      </div>
   }
 }
 
