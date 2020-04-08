@@ -50,8 +50,8 @@ export default class Register extends Component {
     }
 
     //Validate password
-    if (password.length < 6) {
-      alert("info", "Password", "Password must have at least 6 characters")
+    if (password.length < 4) {
+      alert("info", "Password", "Password must have at least 4 characters")
       return
     }
     if (password !== password2) {
@@ -67,12 +67,12 @@ export default class Register extends Component {
       resp = await axios.post("/users", { name: username, email, password })
       console.log("resp :", resp)
       if (resp.data) {
-        if (resp.data) {
-          if (resp.data.token) {
+        if (resp.data.data) {
+          if (resp.data.data.token) {
             this.props.setSession({ loggedIn: true })
             this.props.setSession({
-              token: resp.data.token,
-              user: resp.data.user,
+              token: resp.data.data.token,
+              user: resp.data.data.user,
             })
             this.props.hide()
           }
@@ -160,7 +160,7 @@ export default class Register extends Component {
                 onChange={this.fieldChanged}
               />
             </Col>
-            <Col xs={5}>Password should be at least 6 characters</Col>
+            <Col xs={5}>Password should be at least 4 characters</Col>
           </Row>
           <Row className="mb-2">
             <Col xs={2}>Confirm Password</Col>
