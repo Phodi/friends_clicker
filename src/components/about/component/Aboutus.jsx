@@ -1,68 +1,90 @@
 import React, { Component } from "react"
-import Accordion from 'react-bootstrap/Accordion'
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-class Sus extends Component{
+import Flip from 'react-reveal/Flip';
+import Fade from 'react-reveal/Fade';
+class Aboutus extends Component{
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = { }
       }
    render(){
        return(
         <div>
           <center>
           
-            
             <div class ="container">
               <div class="row">
                 <div class="col-md-4">
+                <Fade top>
                   <div class="list-group-item list-group-item-action" role="tab">
-                  <Accordion>
+                  
                   <Card>
-                  <Accordion.Toggle as={Card.Header} eventKey="0">
+                  
                     
                   <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
                   
-                  </Accordion.Toggle>
-                  <Accordion.Collapse eventKey="0">
-                  <Card.Body>Hello! I'm the body1</Card.Body>
-                  </Accordion.Collapse>
-                  </Card>
-                  </Accordion>
+                  
+                  <Card.Body>
+                  <div>
+                  <Flip left cascade>
+                  Hello! I'm the body1
+                  </Flip>
                   </div>
+                  </Card.Body>
+           
+                  </Card>
+                  
+                  </div>
+                  </Fade>
+                  
                 </div>
               <div class="col-md-4">
+              <Fade top collapse>
                 <div class="list-group-item list-group-item-action" role="tab">
                   {/* <img src="./img/hqdefault.jpg" alt=""/> */}
-                  <Accordion>
+                  
                   <Card>
-                  <Accordion.Toggle as={Card.Header} eventKey="0">
+                
                     
                   <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
                   
-                  </Accordion.Toggle>
-                  <Accordion.Collapse eventKey="0">
-                  <Card.Body>Hello! I'm the body2</Card.Body>
-                  </Accordion.Collapse>
+                  
+                  
+                  <Card.Body>
+                  <div>
+                  <Flip left cascade>
+                  Hello! I'm the body2
+                  </Flip>
+                  </div>
+                  </Card.Body>
+                  
                   </Card>
-                  </Accordion>
+                  
                 </div>
+                </Fade>
               </div>
+              
               <div class="col-md-4">
+              <Fade top cascade collapse >
                 <div class="list-group-item list-group-item-action" role="tab">
-                <Accordion>
+                
                 <Card>
-                  <Accordion.Toggle as={Card.Header} eventKey="0">
+                  
                     
                   <img src="./img/hqdefault.jpg" width="100%" height="auto" alt=""/>
                   
-                  </Accordion.Toggle>
-                  <Accordion.Collapse eventKey="0">
-                  <Card.Body>Hello! I'm the body3</Card.Body>
-                  </Accordion.Collapse>
+                  
+                  
+                  <Card.Body><div>
+                  <Flip left cascade>
+                  Hello! I'm the body3
+                  </Flip>
+                  </div></Card.Body>
+                  
                   </Card>
-                  </Accordion>
+                  
                 </div>
+                </Fade>
               </div>
             </div>
             </div>
@@ -75,4 +97,4 @@ class Sus extends Component{
        )
    }
 }
-export default Sus
+export default Aboutus

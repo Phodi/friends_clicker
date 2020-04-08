@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import "./about.css" //Import css จากไฟล์นี้ (จะใช้อะไรก้อไปเพิ่มเอา)
 
-import Sus from "./component/sus"
+import Aboutus from "./component/Aboutus"
 
 class Play extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class Play extends Component {
     return (
       <div>
         {/* เขียน HTML ต่างๆจรงนี้ */}
-        <Sus></Sus>
+        <Aboutus></Aboutus>
 
         
         {/* เวลาตั้ง class HTML ให้ใช้ className แทน */}
