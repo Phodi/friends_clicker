@@ -5,6 +5,7 @@ import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
 import Regist from "./Register"
+import Edit from "./Edit"
 
 const validator = require("validator")
 
@@ -15,6 +16,7 @@ class Login extends Component {
       processing: false,
       credentials: { email: "", password: "" },
       showRegist: false,
+      showEdit: false,
     }
   }
 
@@ -37,6 +39,15 @@ class Login extends Component {
 
   closeRegist = () => {
     this.setState({ showRegist: false })
+  }
+
+  //Edit modal
+  triggerEdit = () => {
+    this.setState({ showEdit: true })
+  }
+
+  closeEdit = () => {
+    this.setState({ showEdit: false })
   }
 
   //Renew
@@ -166,11 +177,25 @@ class Login extends Component {
       return (
         <div className="row">
           <div className="col justify-content-center align-items-center align-self-center">
-            {this.props.session.user.name}
+            <a
+              href="#"
+              onClick={() => {
+                this.triggerEdit()
+              }}
+            >
+              {this.props.session.user.name}
+            </a>
           </div>
           <div className="col justify-content-center align-items-center align-self-center">
             <Button onClick={this.logout}>Logout</Button>
           </div>
+          <Edit
+            show={this.state.showEdit}
+            hide={this.closeEdit}
+            session={this.props.session}
+            setSession={this.props.setSession}
+            alert={this.props.alert}
+          ></Edit>
         </div>
       )
     }

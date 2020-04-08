@@ -42,7 +42,7 @@ export default class Edit extends Component {
     const { username, email, password, password2 } = this.state
 
     //Validate username
-    if (username.length == 0) {
+    if (username.length === 0) {
       alert("info", "Username", "Please enter username")
       return
     }
