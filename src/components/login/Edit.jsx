@@ -20,6 +20,13 @@ export default class Edit extends Component {
     }
   }
 
+  componentDidMount = () => {
+    this.setState({
+      username: this.props.session.user.name,
+      email: this.props.session.credentials.email,
+    })
+  }
+
   finalReport = (resp) => {
     if (resp.data) {
       if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
@@ -50,8 +57,8 @@ export default class Edit extends Component {
     }
 
     //Validate password
-    if (password.length < 4) {
-      alert("info", "Password", "Password must have at least 4 characters")
+    if (password.length < 6) {
+      alert("info", "Password", "Password must have at least 6 characters")
       return
     }
     if (password !== password2) {
@@ -68,10 +75,8 @@ export default class Edit extends Component {
       console.log("resp :", resp)
       if (resp.data) {
         if (resp.data.data) {
-          if (resp.data.data.token) {
-            this.props.setSession({ loggedIn: true })
+          if (resp.data.data.user) {
             this.props.setSession({
-              token: resp.data.data.token,
               user: resp.data.data.user,
             })
             this.props.hide()
@@ -115,7 +120,7 @@ export default class Edit extends Component {
     return (
       <Modal size="lg" disabled show={this.props.show} onHide={this.props.hide}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
+          <Modal.Title>Edit Account</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="mb-2">
@@ -125,7 +130,7 @@ export default class Edit extends Component {
                 autoComplete="off"
                 name="username"
                 type="text"
-                placeholder={this.props.session.user.name}
+                defaultValue={this.props.session.user.name}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />
@@ -141,7 +146,8 @@ export default class Edit extends Component {
                 autoComplete="off"
                 name="email"
                 type="email"
-                placeholder={this.props.session.user.email}
+                placeholder="email"
+                defaultValue={this.props.session.user.email}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />
@@ -160,7 +166,7 @@ export default class Edit extends Component {
                 onChange={this.fieldChanged}
               />
             </Col>
-            <Col xs={5}>Password should be at least 4 characters</Col>
+            <Col xs={5}>Password should be at least 6 characters</Col>
           </Row>
           <Row className="mb-2">
             <Col xs={2}>Confirm Password</Col>

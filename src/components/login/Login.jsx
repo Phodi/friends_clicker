@@ -29,6 +29,7 @@ class Login extends Component {
     } else {
       //Failed to connect
       this.props.alert("danger", "Error!", "Failed to connect to the API")
+      console.log("error:", resp)
     }
   }
 
