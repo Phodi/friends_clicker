@@ -7,7 +7,7 @@ import { Row, Col } from "react-bootstrap"
 
 const validator = require("validator")
 
-export default class Register extends Component {
+export default class Edit extends Component {
   constructor(props) {
     super(props)
 
@@ -20,6 +20,13 @@ export default class Register extends Component {
     }
   }
 
+  componentDidMount = () => {
+    this.setState({
+      username: this.props.session.user.name,
+      email: this.props.session.credentials.email,
+    })
+  }
+
   finalReport = (resp) => {
     if (resp.data) {
       if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
@@ -30,7 +37,7 @@ export default class Register extends Component {
     }
   }
 
-  register = async () => {
+  update = async () => {
     const alert = this.props.alert
     const { username, email, password, password2 } = this.state
 
@@ -64,15 +71,13 @@ export default class Register extends Component {
     const { axios } = this.props.session
     let resp = null
     try {
-      resp = await axios.post("/users", { name: username, email, password })
+      resp = await axios.put("/users/me", { name: username, email, password })
       console.log("resp :", resp)
       if (resp.data) {
-        if (resp.data) {
-          if (resp.data.token) {
-            this.props.setSession({ loggedIn: true })
+        if (resp.data.data) {
+          if (resp.data.data.user) {
             this.props.setSession({
-              token: resp.data.token,
-              user: resp.data.user,
+              user: resp.data.data.user,
             })
             this.props.hide()
           }
@@ -115,7 +120,7 @@ export default class Register extends Component {
     return (
       <Modal size="lg" disabled show={this.props.show} onHide={this.props.hide}>
         <Modal.Header closeButton>
-          <Modal.Title>Register</Modal.Title>
+          <Modal.Title>Edit Account</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="mb-2">
@@ -125,7 +130,7 @@ export default class Register extends Component {
                 autoComplete="off"
                 name="username"
                 type="text"
-                placeholder="username"
+                defaultValue={this.props.session.user.name}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />
@@ -142,6 +147,7 @@ export default class Register extends Component {
                 name="email"
                 type="email"
                 placeholder="email"
+                defaultValue={this.props.session.user.email}
                 className="mr-sm-2"
                 onChange={this.fieldChanged}
               />
@@ -179,8 +185,8 @@ export default class Register extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="primary" onClick={this.register}>
-            Register
+          <Button variant="primary" onClick={this.update}>
+            Update
           </Button>
           <Button variant="secondary" onClick={this.props.hide}>
             Close

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Route, Switch } from "react-router-dom"
+import Cookie from "js-cookie"
 
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -24,7 +25,6 @@ const API_URL = "/api"
 class App extends Component {
   constructor(props) {
     super(props)
-    // this.state = { login: new Login({ apiUrl: API_URL }) }
     this.state = {
       session: {
         axios: axios.create({
@@ -33,12 +33,21 @@ class App extends Component {
         }),
         loggedIn: false,
         credentials: { email: "", password: "" },
-        token: "",
+        token: Cookie.get("token"),
         user: { _id: "", name: "", emai: "", stats: {} },
       },
       alerts: [],
       showRegist: false,
     }
+  }
+
+  componentDidMount() {
+    // axios.defaults.headers.common["Authorization"] = Cookie.get("token")
+    console.log("DidMount!!!!!!!!!!!!!")
+    console.log("Cookie found: " + Cookie.get("token", { domain: "/" }))
+    // if (Cookie.get("token")) {
+    // console.log("Cookie found: " + Cookie.get("token"))
+    // }
   }
 
   generateAlert = async (type, head, body) => {
