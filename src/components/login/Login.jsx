@@ -51,49 +51,49 @@ class Login extends Component {
   }
 
   //Renew
-  componentDidMount() {
-    this.interval = null
-  }
-  componentWillUnmount() {
-    clearInterval(this.interval)
-  }
+  // componentDidMount() {
+  //   this.interval = null
+  // }
+  // componentWillUnmount() {
+  //   clearInterval(this.interval)
+  // }
 
-  setRenewInterval = () => {
-    clearInterval(this.interval)
-    this.interval = this.renewInterval()
-  }
+  // setRenewInterval = () => {
+  //   clearInterval(this.interval)
+  //   this.interval = this.renewInterval()
+  // }
 
-  //Renew token every 1.5 minutes
-  renewInterval = () => {
-    const interval = setInterval(() => {
-      this.renew()
-    }, 90000)
-    return () => clearInterval(interval)
-  }
+  // //Renew token every 1.5 minutes
+  // renewInterval = () => {
+  //   const interval = setInterval(() => {
+  //     this.renew()
+  //   }, 90000)
+  //   return () => clearInterval(interval)
+  // }
 
-  renew = async () => {
-    if (!this.props.session.loggedIn) {
-      clearInterval(this.interval)
-      return
-    }
-    console.log("Renewing")
-    const axios = this.props.session.axios
-    this.setState({ processing: true })
-    let resp = null
-    try {
-      resp = await axios.get("/users/me/renew")
-      if (resp.data.token) {
-        this.props.setSession({ token: resp.data.token })
-      }
-    } catch (error) {
-      resp = error
-      this.props.setSession({ loggedIn: false })
-      console.log("error :", error)
-    } finally {
-      this.finalReport(resp)
-      this.setState({ processing: false })
-    }
-  }
+  // renew = async () => {
+  //   if (!this.props.session.loggedIn) {
+  //     clearInterval(this.interval)
+  //     return
+  //   }
+  //   console.log("Renewing")
+  //   const axios = this.props.session.axios
+  //   this.setState({ processing: true })
+  //   let resp = null
+  //   try {
+  //     resp = await axios.get("/users/me/renew")
+  //     if (resp.data.token) {
+  //       this.props.setSession({ token: resp.data.token })
+  //     }
+  //   } catch (error) {
+  //     resp = error
+  //     this.props.setSession({ loggedIn: false })
+  //     console.log("error :", error)
+  //   } finally {
+  //     this.finalReport(resp)
+  //     this.setState({ processing: false })
+  //   }
+  // }
 
   login = async () => {
     const axios = this.props.session.axios
