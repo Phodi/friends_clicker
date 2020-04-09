@@ -19,6 +19,8 @@ class Play extends Component {
   btnr_img = null
   spriteL = []
   spriteR = []
+  vfx = []
+  vfx_index = 14
   heart_frame = 0
 
   heart_x = 100
@@ -70,7 +72,13 @@ class Play extends Component {
   currentAutoRateIndex = 0
 
   everySecond = () => {
-    console.log("Run AutoClick")
+    this.score += this.autoRate;
+  }
+
+  changeFrame = () => {
+    if(this.vfx_index < 90)
+    this.vfx_index += 1
+    else this.vfx_index = 0
   }
 
   preload = (p5) => {
@@ -101,6 +109,11 @@ class Play extends Component {
     //Load sprite
     this.spriteL.push(p5.loadImage("/game/img/sprites/w.png"))
     this.spriteR.push(p5.loadImage("/game/img/sprites/b.png"))
+
+    //load VFX
+    for (let index = 0; index < 91; index++) {
+      this.vfx.push(p5.loadImage("/game/img/vfx/"+index+".png"))
+    }
   }
 
   setup = (p5, canvasParentRef) => {
@@ -115,6 +128,13 @@ class Play extends Component {
       0,
       1000,
       550
+    )
+    p5.image(
+      this.vfx[this.vfx_index],
+      this.heartX - 150,
+      this.heartY - 150,
+      300,
+      300
     )
     p5.image(
       this.heart_img[this.heart_frame],
@@ -253,6 +273,11 @@ class Play extends Component {
           timeout={1000}
           enabled={true}
           callback={this.everySecond}
+        ></Interval>
+        <Interval
+          timeout={66}
+          enabled={true}
+          callback={this.changeFrame}
         ></Interval>
       </div>
     )
