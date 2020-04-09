@@ -55,7 +55,6 @@ class Play extends Component {
 
   componentDidMount() {
     this.loadStats()
-    // this.score = 666
   }
 
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
@@ -155,7 +154,7 @@ class Play extends Component {
   currentAutoRateIndex = 0
 
   everySecond = () => {
-    this.score += this.autoRate
+    // this.score += this.autoRate
   }
 
   changeFrame = () => {
@@ -368,7 +367,7 @@ class Play extends Component {
       p5.mouseY > this.heartY - this.heart_y / 2 &&
       p5.mouseY < this.heartY + this.heart_y / 2
     ) {
-      this.score += this.clickRate
+      // this.score += this.clickRate
       this.heart_frame++
       if (this.heart_frame >= 6) {
         this.heart_frame = 0
@@ -399,7 +398,7 @@ class Play extends Component {
       this.currentClickRateIndex = this.clickRateUpgrade.indexOf(this.clickRate)
       if (this.score >= this.costClickRateUpgrade[this.currentClickRateIndex]) {
         this.clickRate = this.clickRateUpgrade[this.currentClickRateIndex + 1]
-        this.score -= this.costClickRateUpgrade[this.currentClickRateIndex]
+        // this.score -= this.costClickRateUpgrade[this.currentClickRateIndex]
       } else alert("Not Enough Score!!")
       this.btnl_scale += 0.1
     }
@@ -415,7 +414,7 @@ class Play extends Component {
       if (this.score >= this.costAutoRateUpgrade[this.currentAutoRateIndex]) {
         this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1]
         this.setState({ autoRate: this.autoRate })
-        this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
+        // this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
       } else alert("Not Enough Score!!")
       this.btnr_scale += 0.1
     }
@@ -437,7 +436,7 @@ class Play extends Component {
           callback={() => {
             console.log("Clicking")
             //click heart
-            this.score++
+            // this.score++
             this.heart_frame++
             if (this.heart_frame >= 6) {
               this.heart_frame = 0
