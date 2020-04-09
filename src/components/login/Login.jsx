@@ -20,6 +20,11 @@ class Login extends Component {
     }
   }
 
+  componentDidMount() {
+    console.log("AutoLogin: " + localStorage.getItem("token"))
+    this.tokenLogin(localStorage.getItem("token"))
+  }
+
   componentDidUpdate() {}
 
   finalReport = (resp) => {
@@ -95,6 +100,32 @@ class Login extends Component {
   //   }
   // }
 
+  tokenLogin = async (token) => {
+    const axios = this.props.session.axios
+    this.props.setSession({ token })
+    console.log("tokenLogin")
+    this.setState({ processing: true })
+
+    let resp = null
+    try {
+      resp = await axios.get("/users/me")
+      if (resp.data) {
+        if (resp.data.user) {
+          console.log("userInfo: ", resp.data.user)
+          this.props.setSession({ loggedIn: true, user: resp.data.user })
+        }
+      }
+    } catch (error) {
+      resp = error
+      console.log("error: " + error)
+      this.props.setSession({ loggedIn: false })
+    } finally {
+      this.finalReport(resp)
+
+      this.setState({ processing: false })
+    }
+  }
+
   login = async () => {
     const axios = this.props.session.axios
     const { email, password } = this.state.credentials
@@ -127,7 +158,7 @@ class Login extends Component {
           token: resp.data.token,
           loggedIn: true,
         })
-        this.setRenewInterval()
+        // this.setRenewInterval()
       }
     } catch (error) {
       resp = error
