@@ -8,8 +8,46 @@ class Play extends Component {
     super(props)
 
     this.state = {
+      score: 0,
+      clickRate: 1,
       autoRate: 0,
     }
+  }
+
+  finalReport = (resp) => {
+    if (resp.data) {
+      if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
+      if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
+    } else {
+      //Failed to connect
+      this.props.alert("danger", "Error!", "Failed to connect to the API")
+    }
+  }
+  loadStats = async () => {
+    const axios = this.props.session.axios
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.get("/stats")
+      if (resp.data) {
+        if (resp.data.data) {
+          this.setState({
+            score: resp.data.data.currentScore,
+            clickRate: resp.data.data.clickRate,
+            autoRate: resp.data.data.autoRate,
+          })
+        }
+      }
+    } catch (error) {
+      resp = error
+      console.log("error :", error)
+    } finally {
+      this.finalReport(resp)
+    }
+  }
+
+  componentDidMount() {
+    this.loadStats()
   }
 
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
