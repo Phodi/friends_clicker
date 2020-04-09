@@ -1,6 +1,12 @@
-class Sprite {
-  img = null //image object
-  img_url = null
+class Animated {
+  frames = [] //image objects
+  img_urls = []
+
+  curFrame = 0
+
+  //deltatime
+  _dtAcc = 0
+  speed = 0 //how many ms between frame
 
   centered = false
 
@@ -24,10 +30,24 @@ class Sprite {
   draw_width = 0
   draw_height = 0
 
-  constructor(img_url, init_x = 0, init_y = 0) {
-    this.img_url = img_url
+  constructor(img_urls, speed = -1, init_x = 0, init_y = 0) {
+    this.img_urls = img_urls
     this.x = init_x
     this.y = init_y
+    this.speed = speed
+  }
+
+  setFrame(target_frame) {
+    if (target_frame >= this.frames.length || target_frame < 0) {
+      this.curFrame = 0
+    } else {
+      this.curFrame = target_frame
+    }
+  }
+
+  advanceFrame() {
+    this.curFrame++
+    if (this.curFrame >= this.frames.length) this.curFrame = 0
   }
 
   calcDrawCoord() {
@@ -59,16 +79,19 @@ class Sprite {
   }
 
   preload(p5) {
-    this.img = p5.loadImage(this.img_url)
+    this.frames = this.img_urls.map((url) => p5.loadImage(url))
   }
 
   setup(p5) {
-    this.img_width = this.img.width
-    this.img_height = this.img.height
+    if (this.curFrame < 0) this.curFrame = 0
+    if (this.curFrame >= this.frames.length) this.curFrame = 0
+
+    this.img_width = this.frames[0].width
+    this.img_height = this.frames[0].height
 
     this.calcDrawCoord()
     p5.image(
-      this.img,
+      this.frames[this.curFrame],
       this._draw_x1,
       this._draw_y1,
       this._draw_x2,
@@ -77,15 +100,21 @@ class Sprite {
   }
 
   draw(p5) {
+    if (this.curFrame < 0) this.curFrame = 0
     this.calcDrawCoord()
     p5.image(
-      this.img,
+      this.frames[this.curFrame],
       this._draw_x1,
       this._draw_y1,
       this._draw_x2,
       this._draw_y2
     )
+    this._dtAcc += p5.deltaTime
+    if (this._dtAcc >= this.speed) {
+      this._dtAcc = 0
+      if (this.speed >= 0) this.advanceFrame()
+    }
   }
 }
 
-export default Sprite
+export default Animated

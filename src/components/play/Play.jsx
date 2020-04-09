@@ -7,6 +7,7 @@ import ObjectManager from "./p5_objects/ObjectManager"
 import Sprite from "./p5_objects/Sprite"
 import Clickable from "./p5_objects/Clickable"
 import Button from "./p5_objects/custom/Button"
+import Heart from "./p5_objects/custom/Heart"
 
 const numeral = require("numeral")
 
@@ -27,7 +28,14 @@ class Play extends Component {
 
     this.obj = new ObjectManager()
 
-    this.heart = new Button("/game/img/heart/0.png")
+    this.heart = new Heart([
+      "/game/img/heart/0.png",
+      "/game/img/heart/1.png",
+      "/game/img/heart/2.png",
+      "/game/img/heart/3.png",
+      "/game/img/heart/4.png",
+      "/game/img/heart/5.png",
+    ])
     this.btnL = new Button("/game/img/btn/left.png")
     this.btnR = new Button("/game/img/btn/right.png")
 
@@ -130,15 +138,10 @@ class Play extends Component {
     heart.setPos(this.gameWidth / 2, this.gameHeight / 2, true)
     heart.onClick = () => {
       this.score += this.clickRate
-      this.props.alert(
-        "info",
-        "Clicked",
-        `score:${this.score}\nclickRate:${this.clickRate}\nautoRate:${this.autoRate}`
-      )
     }
 
-    btnL.x = 20
-    btnL.y = this.gameHeight - 120
+    btnL.setPos(200, this.gameHeight - 65)
+    btnL.b_scale = 0.01
     btnL.textSize = 32
     btnL.font_y = 24
     btnL.font = this.gameFont
@@ -147,8 +150,8 @@ class Play extends Component {
       this.clickRate += 1
     }
 
-    btnR.x = this.gameWidth - 380
-    btnR.y = this.gameHeight - 120
+    btnR.setPos(this.gameWidth - 200, this.gameHeight - 65)
+    btnR.b_scale = 0.01
     btnR.textSize = 32
     btnR.font_y = 24
     btnR.font = this.gameFont
@@ -198,6 +201,12 @@ class Play extends Component {
             />
           </div>
         </div>
+        <Interval
+          name="autoSave"
+          timeout={3000}
+          enabled={true}
+          callback={this.updateStats}
+        ></Interval>
       </div>
     )
   }
