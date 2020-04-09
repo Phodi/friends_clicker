@@ -8,7 +8,7 @@ class NavMenu extends Component {
   render() {
     return (
       <Navbar sticky="top">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img src="img/logo.jpg"></img>
         </Navbar.Brand>
         <Nav className="mr-auto">
