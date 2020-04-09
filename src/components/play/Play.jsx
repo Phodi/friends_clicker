@@ -4,6 +4,14 @@ import Sketch from "react-p5"
 import "./play.css"
 
 class Play extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      autoRate: 0,
+    }
+  }
+
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
   score = 0
   clickRate = 1
@@ -234,6 +242,7 @@ class Play extends Component {
       this.currentAutoRateIndex = this.autoRateUpgrade.indexOf(this.autoRate)
       if (this.score >= this.costAutoRateUpgrade[this.currentAutoRateIndex]) {
         this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1]
+        this.setState({ autoRate: this.autoRate })
         this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
       } else alert("Not Enough Score!!")
       this.btnr_scale += 0.1
@@ -250,9 +259,27 @@ class Play extends Component {
           mousePressed={this.mousePressed}
         />
         <Interval
-          timeout={1000}
-          enabled={true}
-          callback={this.everySecond}
+          name="autoRate_click"
+          timeout={1000 / this.state.autoRate}
+          enabled={this.state.autoRate}
+          callback={() => {
+            console.log("Clicking")
+            //click heart
+            this.score++
+            this.heart_frame++
+            if (this.heart_frame >= 6) {
+              this.heart_frame = 0
+              //moving both of sprite
+              if (this.heartX - this.spriteL_posX <= 120) {
+                this.spriteL_posX = this.gameWidth / 10
+                this.spriteR_posX = (this.gameWidth * 9) / 10
+              } else {
+                this.spriteL_posX += 4
+                this.spriteR_posX -= 4
+              }
+            }
+            this.heart_scale += 0.2
+          }}
         ></Interval>
       </div>
     )
