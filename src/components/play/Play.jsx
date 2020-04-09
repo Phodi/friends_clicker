@@ -11,6 +11,7 @@ class Play extends Component {
       score: 0,
       clickRate: 1,
       autoRate: 0,
+      processing: false,
     }
 
     this.score = 0
@@ -50,6 +51,45 @@ class Play extends Component {
       console.log("error :", error)
     } finally {
       this.finalReport(resp)
+      this.setState({ processing: false })
+    }
+  }
+
+  updateStats = async () => {
+    this.setState({
+      score: this.score,
+      clickRate: this.clickRate,
+      autoRate: this.autoRate,
+    })
+    const axios = this.props.session.axios
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.put("/stats", {
+        data: {
+          currentScore: this.score,
+          clickRate: this.clickRate,
+          autoRate: this.autoRate,
+        },
+      })
+      if (resp.data) {
+        if (resp.data.data) {
+          this.setState({
+            score: resp.data.data.currentScore,
+            clickRate: resp.data.data.clickRate,
+            autoRate: resp.data.data.autoRate,
+          })
+          this.score = resp.data.data.currentScore
+          this.clickRate = resp.data.data.clickRate
+          this.autoRate = resp.data.data.autoRate
+        }
+      }
+    } catch (error) {
+      resp = error
+      console.log("error :", error)
+    } finally {
+      this.finalReport(resp)
+      this.setState({ processing: false })
     }
   }
 
@@ -417,15 +457,37 @@ class Play extends Component {
 
   render() {
     return (
-      <div id="canvas-container">
-        <Sketch
-          preload={this.preload}
-          setup={this.setup}
-          draw={this.draw}
-          mousePressed={() => {
-            console.log(this.mousePressed)
-          }}
-        />
+      <div className="container">
+        {this.state.processing ? (
+          <div>Saving</div>
+        ) : (
+          <div onClick={this.updateStats}>
+            <span>
+              <img
+                className="img-fluid"
+                style={{ width: "1%", height: "auto" }}
+                src="/img/refresh-icon.png"
+              ></img>
+            </span>
+            Save
+          </div>
+        )}
+        <div className="row">
+          <div id="canvas-container" className="d-flex justify-content-center">
+            <Sketch
+              preload={this.preload}
+              setup={this.setup}
+              draw={this.draw}
+              mousePressed={this.mousePressed}
+            />
+          </div>
+        </div>
+        <Interval
+          name="autoSave"
+          timeout={10000}
+          enabled={true}
+          callback={this.updateStats}
+        ></Interval>
         <Interval
           name="autoRate_click"
           timeout={
