@@ -31,9 +31,9 @@ class Play extends Component {
         {/* เวลาตั้ง class HTML ให้ใช้ className แทน */}
         {/* เช่น <div class="kuy"> เป็น <div className="kuy"> */}
         {/* ตัวอย่างลบได้ */}
-        {"Hello World!"}
+        {/* {"Hello World!"}
         <button onClick={this.showStates}>Run showStates()</button>{" "}
-        <button onClick={this.editStates}>Run editStates()</button>
+        <button onClick={this.editStates}>Run editStates()</button> */}
         
       </div>
     )

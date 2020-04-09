@@ -9,9 +9,9 @@ class Aboutus extends Component{
       }
    render(){
        return(
-        <div>
+        <div className="ma-2">
           <center>
-          
+          <h1>Our Team</h1>
             <div class ="container">
               <div class="row">
                 <div class="col-md-4">
@@ -53,7 +53,7 @@ class Aboutus extends Component{
                   <Card.Body>
                   <div>
                   <Flip left cascade>
-                  Parinya Khongkhaphet 610610597
+                  <p> Parinya Khongkhaphet 610610597 </p>
                   </Flip>
                   </div>
                   </Card.Body>
@@ -71,13 +71,13 @@ class Aboutus extends Component{
                 <Card>
                   
                     
-                  <img src="./img/phodi.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/image.jpg" width="99%" height="auto" alt=""/>
                   
                   
                   
                   <Card.Body><div>
                   <Flip left cascade>
-                  Phodi Phoocharoen 610610601
+                  <p> Phodi Phoocharoen 610610601</p>
                   </Flip>
                   </div></Card.Body>
                   
