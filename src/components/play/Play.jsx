@@ -27,29 +27,43 @@ class Play extends Component {
   heartY = 275;
 
   btnl_x = this.gameWidth/2 - 50;
-  btnl_y = 80;
+  btnl_y = 100;
   btnl_scale = 1;
   btnlX = this.gameWidth/4;
-  btnlY = this.gameHeight - 50;
+  btnlY = this.gameHeight - this.btnl_y/2 - 25;
+
 
   btnr_x = this.gameWidth/2 - 50;
-  btnr_y = 80;
+  btnr_y = 100;
   btnr_scale = 1;
   btnrX = this.gameWidth*3/4;
   btnrY = this.btnlY;
 
   spriteL_posX = this.gameWidth/10;
   spriteL_posY = 275;
-  sprite_x = 150;
+  sprite_x = 170;
   sprite_y = 210;
 
   spriteR_posX = this.gameWidth*9/10;
   spriteR_posY = 275;
 
+  gameFont;
+
+  clickRateUpgrade = [1,2,4,10,20,50,150,350,500,2500];
+  costClickRateUpgrade = [100,1000,4000,16000,48000,200000,800000,3000000,10000000,100000000];
+
+  autoRateUpgrade = [0,1,2,4,15,50,150]
+  costAutoRateUpgrade = [1000,5000,34000,200000,750000,3875000,25000000]
+
+  currentClickRateIndex = 0 ;
+  currentAutoRateIndex = 0 ;
 
 
 
   preload = (p5) => {
+    //Load font
+    this.gameFont = p5.loadFont('/game/font/Mario-Kart-DS.ttf');
+
     //Load Heart animation frame
     this.heart_img.push(p5.loadImage("/game/img/heart/0.png"));
     this.heart_img.push(p5.loadImage("/game/img/heart/1.png"));
@@ -80,13 +94,23 @@ class Play extends Component {
     p5.createCanvas(this.gameWidth, this.gameHeight).parent(canvasParentRef)
   }
   draw = (p5) => {
-    p5.textSize(30);
-    p5.image(this.bg_img[this.autoRate],0,0,1000,550);
+    p5.textSize(20);
+    p5.textFont(this.gameFont);
+    p5.image(this.bg_img[this.autoRateUpgrade.indexOf(this.autoRate)],0,0,1000,550);
     p5.image(this.heart_img[this.heart_frame],this.heartX - this.heart_x*this.heart_scale/2, this.heartY - this.heart_y*this.heart_scale/2, this.heart_x*this.heart_scale,this.heart_y*this.heart_scale);
     p5.image(this.btnl_img,this.btnlX - this.btnl_x*this.btnl_scale/2, this.btnlY - this.btnl_y*this.btnl_scale/2, this.btnl_x*this.btnl_scale, this.btnl_y*this.btnl_scale);
-    p5.text("Upgrade Click Rate", this.btnlX - 130, this.btnlY + 10);
+    p5.text("Upgrade Click Rate .", this.btnlX - 160, this.btnlY + 18);
+    p5.text(this.costClickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)], this.btnlX +50, this.btnlY + 18);
     p5.image(this.btnr_img,this.btnrX - this.btnr_x*this.btnr_scale/2, this.btnrY - this.btnr_y*this.btnr_scale/2, this.btnr_x*this.btnr_scale, this.btnr_y*this.btnr_scale);
-    p5.text("Upgrade Auto Rate", this.btnrX - 130, this.btnrY + 10);
+    p5.text("Upgrade Auto Rate .", this.btnrX - 160, this.btnrY + 18);
+    p5.textSize(15);
+    p5.text("Next Rate .", this.btnlX + 55, this.btnlY - 32);
+    p5.text(this.clickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)+1], this.btnlX + 140, this.btnlY - 32);
+    p5.text("Next Rate .", this.btnrX + 55, this.btnlY - 32);
+    p5.text(this.autoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)+1], this.btnrX + 140, this.btnrY - 32);
+
+
+    p5.text(this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)], this.btnrX +50, this.btnrY + 18);
     p5.image(this.spriteL[0],this.spriteL_posX - this.sprite_x/2, this.spriteL_posY - this.sprite_y/2, this.sprite_x, this.sprite_y);
     p5.image(this.spriteR[0],this.spriteR_posX - this.sprite_x/2, this.spriteR_posY - this.sprite_y/2, this.sprite_x, this.sprite_y);
     p5.text(this.score, 50, 50);
@@ -124,17 +148,27 @@ class Play extends Component {
     
 
     //click upgrade clickRate
-    if(p5.mouseX > 50 && p5.mouseX < this.gameWidth/2 - 25 && p5.mouseY > this.gameHeight - this.btnl_y - 12.5 && p5.mouseY < this.gameHeight - 12.5)
+    if(p5.mouseX > 25 && p5.mouseX < this.btnl_x + 25 && p5.mouseY > this.gameHeight - this.btnl_y && p5.mouseY < this.gameHeight - 25)
       {
-        this.clickRate += 1;
+        this.currentClickRateIndex = this.clickRateUpgrade.indexOf(this.clickRate);
+        if(this.score >= this.costClickRateUpgrade[this.currentClickRateIndex]){
+        this.clickRate = this.clickRateUpgrade[this.currentClickRateIndex + 1];
+        this.score -= this.costClickRateUpgrade[this.currentClickRateIndex];
+        }
+        else alert("Not Enough Score!!");
         this.btnl_scale+= 0.1;
       }
+
     
     //click upgrade AutoRate
-    if(p5.mouseX > this.gameWidth/2 + 25 && p5.mouseX < this.gameWidth - 25 && p5.mouseY > this.gameHeight - this.btnl_y - 12.5 && p5.mouseY < this.gameHeight - 12.5)
+    if(p5.mouseX > this.gameWidth/2 +25 && p5.mouseX < this.gameWidth - 25 && p5.mouseY > this.gameHeight - this.btnr_y && p5.mouseY < this.gameHeight - 25)
       {
-        if(this.autoRate< 6)
-        this.autoRate += 1;
+        this.currentAutoRateIndex = this.autoRateUpgrade.indexOf(this.autoRate);
+        if(this.score >= this.costAutoRateUpgrade[this.currentAutoRateIndex]){
+        this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1];
+        this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex];
+        }
+        else alert("Not Enough Score!!");
         this.btnr_scale+= 0.1;
       }
   }
