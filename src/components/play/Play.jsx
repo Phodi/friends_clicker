@@ -12,6 +12,10 @@ class Play extends Component {
       clickRate: 1,
       autoRate: 0,
     }
+
+    this.score = 0
+    this.clickRate = 1
+    this.autoRate = 0
   }
 
   finalReport = (resp) => {
@@ -36,6 +40,9 @@ class Play extends Component {
             clickRate: resp.data.data.clickRate,
             autoRate: resp.data.data.autoRate,
           })
+          this.score = resp.data.data.currentScore
+          this.clickRate = resp.data.data.clickRate
+          this.autoRate = resp.data.data.autoRate
         }
       }
     } catch (error) {
@@ -48,12 +55,10 @@ class Play extends Component {
 
   componentDidMount() {
     this.loadStats()
+    // this.score = 666
   }
 
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
-  score = 0
-  clickRate = 1
-  autoRate = 0
 
   gameWidth = 1000
   gameHeight = 550
@@ -78,9 +83,23 @@ class Play extends Component {
   spriteR_03 = []
   spriteR_04 = []
   spriteR_05 = []
-  max_sprite_frame = [2,2,2,2,6,8]
-  spriteL = [this.spriteL_00,this.spriteL_01,this.spriteL_02,this.spriteL_03,this.spriteL_04,this.spriteL_05]
-  spriteR = [this.spriteR_00,this.spriteR_01,this.spriteR_02,this.spriteR_03,this.spriteR_04,this.spriteR_05]
+  max_sprite_frame = [2, 2, 2, 2, 6, 8]
+  spriteL = [
+    this.spriteL_00,
+    this.spriteL_01,
+    this.spriteL_02,
+    this.spriteL_03,
+    this.spriteL_04,
+    this.spriteL_05,
+  ]
+  spriteR = [
+    this.spriteR_00,
+    this.spriteR_01,
+    this.spriteR_02,
+    this.spriteR_03,
+    this.spriteR_04,
+    this.spriteR_05,
+  ]
   sprite_index_set = 0
   sprite_index = 0
   vfx = []
@@ -136,17 +155,16 @@ class Play extends Component {
   currentAutoRateIndex = 0
 
   everySecond = () => {
-    this.score += this.autoRate;
+    this.score += this.autoRate
   }
 
   changeFrame = () => {
     //vfx
-    if(this.vfx_index < 90)
-    this.vfx_index += 1
+    if (this.vfx_index < 90) this.vfx_index += 1
     else this.vfx_index = 0
     //sprite
-    if(this.sprite_index < this.max_sprite_frame[this.sprite_index_set] -1)
-    this.sprite_index += 1
+    if (this.sprite_index < this.max_sprite_frame[this.sprite_index_set] - 1)
+      this.sprite_index += 1
     else this.sprite_index = 0
   }
 
@@ -180,46 +198,69 @@ class Play extends Component {
 
     //Load sprite
     for (let index = 0; index < 2; index++) {
-      this.spriteL_00.push(p5.loadImage("/game/img/sprites/fly_l/"+index+".png"))
+      this.spriteL_00.push(
+        p5.loadImage("/game/img/sprites/fly_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_00.push(p5.loadImage("/game/img/sprites/fly_r/"+index+".png"))
+      this.spriteR_00.push(
+        p5.loadImage("/game/img/sprites/fly_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteL_01.push(p5.loadImage("/game/img/sprites/fly2_l/"+index+".png"))
+      this.spriteL_01.push(
+        p5.loadImage("/game/img/sprites/fly2_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_01.push(p5.loadImage("/game/img/sprites/fly2_r/"+index+".png"))
+      this.spriteR_01.push(
+        p5.loadImage("/game/img/sprites/fly2_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteL_02.push(p5.loadImage("/game/img/sprites/gg_bee_l/"+index+".png"))
+      this.spriteL_02.push(
+        p5.loadImage("/game/img/sprites/gg_bee_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_02.push(p5.loadImage("/game/img/sprites/gg_bee_r/"+index+".png"))
+      this.spriteR_02.push(
+        p5.loadImage("/game/img/sprites/gg_bee_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteL_03.push(p5.loadImage("/game/img/sprites/bat_l/"+index+".png"))
+      this.spriteL_03.push(
+        p5.loadImage("/game/img/sprites/bat_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_03.push(p5.loadImage("/game/img/sprites/bat_r/"+index+".png"))
+      this.spriteR_03.push(
+        p5.loadImage("/game/img/sprites/bat_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 6; index++) {
-      this.spriteL_04.push(p5.loadImage("/game/img/sprites/gp_bee_l/"+index+".png"))
+      this.spriteL_04.push(
+        p5.loadImage("/game/img/sprites/gp_bee_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 6; index++) {
-      this.spriteR_04.push(p5.loadImage("/game/img/sprites/gp_bee_r/"+index+".png"))
+      this.spriteR_04.push(
+        p5.loadImage("/game/img/sprites/gp_bee_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 8; index++) {
-      this.spriteL_05.push(p5.loadImage("/game/img/sprites/wolf_l/"+index+".png"))
+      this.spriteL_05.push(
+        p5.loadImage("/game/img/sprites/wolf_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 8; index++) {
-      this.spriteR_05.push(p5.loadImage("/game/img/sprites/wolf_r/"+index+".png"))
+      this.spriteR_05.push(
+        p5.loadImage("/game/img/sprites/wolf_r/" + index + ".png")
+      )
     }
-
 
     //load VFX
     for (let index = 0; index < 91; index++) {
-      this.vfx.push(p5.loadImage("/game/img/vfx/"+index+".png"))
+      this.vfx.push(p5.loadImage("/game/img/vfx/" + index + ".png"))
     }
   }
 
@@ -227,7 +268,7 @@ class Play extends Component {
     p5.createCanvas(this.gameWidth, this.gameHeight).parent(canvasParentRef)
   }
   draw = (p5) => {
-    console.log(typeof(this.spriteL[0][0]))
+    console.log(typeof this.spriteL[0][0])
     p5.textSize(20)
     p5.textFont(this.gameFont)
     p5.image(
@@ -244,27 +285,9 @@ class Play extends Component {
       300,
       300
     )
-    p5.image(
-      this.lb_01,
-      10,
-      10,
-      200,
-      67
-    )
-    p5.image(
-      this.lb_02,
-      10 + 200 + 10,
-      10,
-      200,
-      67
-    )
-    p5.image(
-      this.lb_03,
-      10 + 200 + 10 + 200 + 10,
-      10,
-      200,
-      67
-    )
+    p5.image(this.lb_01, 10, 10, 200, 67)
+    p5.image(this.lb_02, 10 + 200 + 10, 10, 200, 67)
+    p5.image(this.lb_03, 10 + 200 + 10 + 200 + 10, 10, 200, 67)
     p5.text("Score .", 35, 50)
     p5.text(this.score, 105, 50)
     p5.text("C. Rate .", 250, 50)
@@ -353,8 +376,7 @@ class Play extends Component {
         if (this.heartX - this.spriteL_posX <= 120) {
           this.spriteL_posX = this.gameWidth / 10
           this.spriteR_posX = (this.gameWidth * 9) / 10
-          if(this.sprite_index_set < 5)
-          this.sprite_index_set +=1
+          if (this.sprite_index_set < 5) this.sprite_index_set += 1
           else {
             this.sprite_index_set = 0
             this.sprite_index = 0
