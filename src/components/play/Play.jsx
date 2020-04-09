@@ -3,6 +3,8 @@ import Interval from "react-interval"
 import Sketch from "react-p5"
 import "./play.css"
 
+const numeral = require("numeral")
+
 class Play extends Component {
   constructor(props) {
     super(props)
@@ -324,7 +326,13 @@ class Play extends Component {
     p5.image(this.lb_02, 10 + 200 + 10, 10, 200, 67)
     p5.image(this.lb_03, 10 + 200 + 10 + 200 + 10, 10, 200, 67)
     p5.text("Score .", 35, 50)
-    p5.text(this.score, 105, 50)
+    p5.text(
+      this.score > 999999
+        ? numeral(this.score).format("0[.]0[0] a")
+        : numeral(this.score).format("0"),
+      105,
+      50
+    )
     p5.text("C. Rate .", 250, 50)
     p5.text(this.clickRate, 330, 50)
     p5.text("A. Rate .", 460, 50)
