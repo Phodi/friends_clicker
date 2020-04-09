@@ -21,7 +21,6 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    console.log("AutoLogin: " + localStorage.getItem("token"))
     this.tokenLogin(localStorage.getItem("token"))
   }
 

@@ -68,7 +68,6 @@ class App extends Component {
   setSession = (session) => {
     this.setState({ session: Object.assign(this.state.session, session) })
     localStorage.setItem("token", this.state.session.token)
-    console.log("setSession", session)
     this.state.session.axios.defaults.headers.common[
       "Authorization"
     ] = this.state.session.token
