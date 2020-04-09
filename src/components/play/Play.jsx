@@ -397,7 +397,7 @@ class Play extends Component {
     ) {
       this.currentClickRateIndex = this.clickRateUpgrade.indexOf(this.clickRate)
       if (this.score >= this.costClickRateUpgrade[this.currentClickRateIndex]) {
-        this.clickRate = this.clickRateUpgrade[this.currentClickRateIndex + 1]
+        // this.clickRate = this.clickRateUpgrade[this.currentClickRateIndex + 1]
         // this.score -= this.costClickRateUpgrade[this.currentClickRateIndex]
       } else alert("Not Enough Score!!")
       this.btnl_scale += 0.1
