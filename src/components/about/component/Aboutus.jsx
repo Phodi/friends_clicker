@@ -71,7 +71,7 @@ class Aboutus extends Component{
                 <Card>
                   
                     
-                  <img src="./img/image.jpg" width="99%" height="auto" alt=""/>
+                  <img src="./img/image.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   

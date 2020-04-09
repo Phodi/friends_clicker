@@ -1,4 +1,8 @@
 import React, { Component } from "react"
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import GifPlayer from 'react-gif-player'
 class About extends Component {
   constructor(props) {
     super(props)
@@ -7,18 +11,47 @@ class About extends Component {
   render() {
     return (
       <section id="about">
-        <div className="container">
+        <div className="container" style={{color: "white"}}>
           <div className="row">
             <div className="col-md-6">
-              <h2>About Us</h2>
+              <h2>Friend Clicker</h2>
               <div className="about-content">
-                These scars long have yearned for your tender caress To bind our
-                fortunes, damn what the stars own Rend my heart open, then your
-                love profess A winding, weaving fate to which we both atone
+                This game is boy love simulation story abou how to get in relationship 
+                with other guy with click mouse
               </div>
+              <Accordion>     
+              <Accordion.Toggle as={Button} variant="link" eventKey="0">
               <button type="button" className="btn btn-primary">
-                Read more>>
+               How to play?
               </button>
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey="0">
+                <Card style={{"background-color": "rgba(255,255,255,0.7)"}}>
+              <Card.Body> <div className="col-md-12">
+                        <div className="col-md-12">
+                          <p style={{color: "black"}}>
+                          - Click a heart to get point 
+                          </p>
+                          <div>
+                        <GifPlayer gif="./img/ezgif-7-517d28a1c5ba.gif" still="./img/ezgif-7-517d28a1c5ba.jpg" style={{'borderRadius':'5px'}} />
+                        </div>
+                        </div>
+                        <div className="col-md-12">
+                        <p style={{color: "black"}}>
+                          <br/>
+                        - Click this upgrade to get better point
+                        
+                        <img src="./img/upgrade.jpg" alt="" width="50%" height="auto" /> 
+                        <br/> <br/> - Click this upgrad to get auto point
+                        <img src="./img/auto.jpg" alt="" width="50%" height="auto" />
+                        </p>
+                        </div>
+              </div>
+              </Card.Body>
+              </Card>
+              </Accordion.Collapse>
+              
+              </Accordion>
             </div>
             <div className="col-md-6">
               <p>Easy To Play</p>

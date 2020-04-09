@@ -63,8 +63,28 @@ class Play extends Component {
   bg_img = []
   btnl_img = null
   btnr_img = null
-  spriteL = []
-  spriteR = []
+  lb_01 = null
+  lb_02 = null
+  lb_03 = null
+  spriteL_00 = []
+  spriteL_01 = []
+  spriteL_02 = []
+  spriteL_03 = []
+  spriteL_04 = []
+  spriteL_05 = []
+  spriteR_00 = []
+  spriteR_01 = []
+  spriteR_02 = []
+  spriteR_03 = []
+  spriteR_04 = []
+  spriteR_05 = []
+  max_sprite_frame = [2,2,2,2,6,8]
+  spriteL = [this.spriteL_00,this.spriteL_01,this.spriteL_02,this.spriteL_03,this.spriteL_04,this.spriteL_05]
+  spriteR = [this.spriteR_00,this.spriteR_01,this.spriteR_02,this.spriteR_03,this.spriteR_04,this.spriteR_05]
+  sprite_index_set = 0
+  sprite_index = 0
+  vfx = []
+  vfx_index = 0
   heart_frame = 0
 
   heart_x = 100
@@ -87,8 +107,8 @@ class Play extends Component {
 
   spriteL_posX = this.gameWidth / 10
   spriteL_posY = 275
-  sprite_x = 170
-  sprite_y = 210
+  sprite_x = 100
+  sprite_y = 105
 
   spriteR_posX = (this.gameWidth * 9) / 10
   spriteR_posY = 275
@@ -116,7 +136,18 @@ class Play extends Component {
   currentAutoRateIndex = 0
 
   everySecond = () => {
-    console.log("Run AutoClick")
+    this.score += this.autoRate;
+  }
+
+  changeFrame = () => {
+    //vfx
+    if(this.vfx_index < 90)
+    this.vfx_index += 1
+    else this.vfx_index = 0
+    //sprite
+    if(this.sprite_index < this.max_sprite_frame[this.sprite_index_set] -1)
+    this.sprite_index += 1
+    else this.sprite_index = 0
   }
 
   preload = (p5) => {
@@ -143,16 +174,60 @@ class Play extends Component {
     //Load button
     this.btnl_img = p5.loadImage("/game/img/btn/left.png")
     this.btnr_img = p5.loadImage("/game/img/btn/right.png")
+    this.lb_01 = p5.loadImage("/game/img/btn/lb01.png")
+    this.lb_02 = p5.loadImage("/game/img/btn/lb02.png")
+    this.lb_03 = p5.loadImage("/game/img/btn/lb03.png")
 
     //Load sprite
-    this.spriteL.push(p5.loadImage("/game/img/sprites/w.png"))
-    this.spriteR.push(p5.loadImage("/game/img/sprites/b.png"))
+    for (let index = 0; index < 2; index++) {
+      this.spriteL_00.push(p5.loadImage("/game/img/sprites/fly_l/"+index+".png"))
+    }
+    for (let index = 0; index < 2; index++) {
+      this.spriteR_00.push(p5.loadImage("/game/img/sprites/fly_r/"+index+".png"))
+    }
+    for (let index = 0; index < 2; index++) {
+      this.spriteL_01.push(p5.loadImage("/game/img/sprites/fly2_l/"+index+".png"))
+    }
+    for (let index = 0; index < 2; index++) {
+      this.spriteR_01.push(p5.loadImage("/game/img/sprites/fly2_r/"+index+".png"))
+    }
+    for (let index = 0; index < 2; index++) {
+      this.spriteL_02.push(p5.loadImage("/game/img/sprites/gg_bee_l/"+index+".png"))
+    }
+    for (let index = 0; index < 2; index++) {
+      this.spriteR_02.push(p5.loadImage("/game/img/sprites/gg_bee_r/"+index+".png"))
+    }
+    for (let index = 0; index < 2; index++) {
+      this.spriteL_03.push(p5.loadImage("/game/img/sprites/bat_l/"+index+".png"))
+    }
+    for (let index = 0; index < 2; index++) {
+      this.spriteR_03.push(p5.loadImage("/game/img/sprites/bat_r/"+index+".png"))
+    }
+    for (let index = 0; index < 6; index++) {
+      this.spriteL_04.push(p5.loadImage("/game/img/sprites/gp_bee_l/"+index+".png"))
+    }
+    for (let index = 0; index < 6; index++) {
+      this.spriteR_04.push(p5.loadImage("/game/img/sprites/gp_bee_r/"+index+".png"))
+    }
+    for (let index = 0; index < 8; index++) {
+      this.spriteL_05.push(p5.loadImage("/game/img/sprites/wolf_l/"+index+".png"))
+    }
+    for (let index = 0; index < 8; index++) {
+      this.spriteR_05.push(p5.loadImage("/game/img/sprites/wolf_r/"+index+".png"))
+    }
+
+
+    //load VFX
+    for (let index = 0; index < 91; index++) {
+      this.vfx.push(p5.loadImage("/game/img/vfx/"+index+".png"))
+    }
   }
 
   setup = (p5, canvasParentRef) => {
     p5.createCanvas(this.gameWidth, this.gameHeight).parent(canvasParentRef)
   }
   draw = (p5) => {
+    console.log(typeof(this.spriteL[0][0]))
     p5.textSize(20)
     p5.textFont(this.gameFont)
     p5.image(
@@ -162,6 +237,41 @@ class Play extends Component {
       1000,
       550
     )
+    p5.image(
+      this.vfx[this.vfx_index],
+      this.heartX - 150,
+      this.heartY - 150,
+      300,
+      300
+    )
+    p5.image(
+      this.lb_01,
+      10,
+      10,
+      200,
+      67
+    )
+    p5.image(
+      this.lb_02,
+      10 + 200 + 10,
+      10,
+      200,
+      67
+    )
+    p5.image(
+      this.lb_03,
+      10 + 200 + 10 + 200 + 10,
+      10,
+      200,
+      67
+    )
+    p5.text("Score .", 35, 50)
+    p5.text(this.score, 105, 50)
+    p5.text("C. Rate .", 250, 50)
+    p5.text(this.clickRate, 330, 50)
+    p5.text("A. Rate .", 460, 50)
+    p5.text(this.autoRate, 540, 50)
+
     p5.image(
       this.heart_img[this.heart_frame],
       this.heartX - (this.heart_x * this.heart_scale) / 2,
@@ -189,6 +299,11 @@ class Play extends Component {
       this.btnr_x * this.btnr_scale,
       this.btnr_y * this.btnr_scale
     )
+    p5.text(
+      this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)],
+      this.btnrX + 50,
+      this.btnrY + 18
+    )
     p5.text("Upgrade Auto Rate .", this.btnrX - 160, this.btnrY + 18)
     p5.textSize(15)
     p5.text("Next Rate .", this.btnlX + 55, this.btnlY - 32)
@@ -203,29 +318,20 @@ class Play extends Component {
       this.btnrX + 140,
       this.btnrY - 32
     )
-
-    p5.text(
-      this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)],
-      this.btnrX + 50,
-      this.btnrY + 18
-    )
     p5.image(
-      this.spriteL[0],
+      this.spriteL[this.sprite_index_set][this.sprite_index],
       this.spriteL_posX - this.sprite_x / 2,
       this.spriteL_posY - this.sprite_y / 2,
       this.sprite_x,
       this.sprite_y
     )
     p5.image(
-      this.spriteR[0],
+      this.spriteR[this.sprite_index_set][this.sprite_index],
       this.spriteR_posX - this.sprite_x / 2,
       this.spriteR_posY - this.sprite_y / 2,
       this.sprite_x,
       this.sprite_y
     )
-    p5.text(this.score, 50, 50)
-    p5.text(this.clickRate, 150, 50)
-    p5.text(this.autoRate, 250, 50)
     this.heart_scale = 1
     this.btnl_scale = 1
     this.btnr_scale = 1
@@ -247,9 +353,15 @@ class Play extends Component {
         if (this.heartX - this.spriteL_posX <= 120) {
           this.spriteL_posX = this.gameWidth / 10
           this.spriteR_posX = (this.gameWidth * 9) / 10
+          if(this.sprite_index_set < 5)
+          this.sprite_index_set +=1
+          else {
+            this.sprite_index_set = 0
+            this.sprite_index = 0
+          }
         } else {
-          this.spriteL_posX += 4
-          this.spriteR_posX -= 4
+          this.spriteL_posX += 10
+          this.spriteR_posX -= 10
         }
       }
       this.heart_scale += 0.2
@@ -318,6 +430,11 @@ class Play extends Component {
             }
             this.heart_scale += 0.2
           }}
+        ></Interval>
+        <Interval
+          timeout={66}
+          enabled={true}
+          callback={this.changeFrame}
         ></Interval>
       </div>
     )
