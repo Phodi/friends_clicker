@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-
 import Score from "./Score"
 
 class ScoreboardActual extends Component {
@@ -40,19 +39,47 @@ class ScoreboardActual extends Component {
   }
   render() {
     return (
-      <table className="table table-striped mt-3">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody id="transaction-list">
-          {this.state.scores.map((score) => (
-            <Score name={score.user.name} score={score.currentScore}></Score>
-          ))}
-        </tbody>
-      </table>
+      <div className="container">
+        <div className="row">
+          <div className="col-8">
+            <h3>Scoreboard</h3>
+          </div>
+          <div className="col-4">
+            {this.state.processing ? (
+              <div>Refreshing</div>
+            ) : (
+              <div onClick={this.loadScores}>
+                <span>
+                  <img
+                    className="img-fluid"
+                    style={{ width: "6%", height: "auto" }}
+                    src="/img/refresh-icon.png"
+                  ></img>
+                </span>
+                Refresh
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <table className="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="transaction-list">
+              {this.state.scores.map((score) => (
+                <Score
+                  name={score.user.name}
+                  score={score.currentScore}
+                ></Score>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     )
   }
 }

@@ -10,10 +10,12 @@ class Scoreboard extends Component {
   render() {
     return (
       <div className="container mx-auto">
-        <ScoreboardActual
-          session={this.props.session}
-          alert={this.props.alert}
-        ></ScoreboardActual>
+        <div className="my-4">
+          <ScoreboardActual
+            session={this.props.session}
+            alert={this.props.alert}
+          ></ScoreboardActual>
+        </div>
       </div>
     )
   }
