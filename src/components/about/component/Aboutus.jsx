@@ -11,7 +11,6 @@ class Aboutus extends Component{
        return(
         <div className="ma-2">
           <center>
-            
           <h1>Our Team</h1>
             <div class ="container">
               <div class="row">
