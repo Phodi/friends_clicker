@@ -154,7 +154,7 @@ class Play extends Component {
   currentAutoRateIndex = 0
 
   everySecond = () => {
-    // this.score += this.autoRate
+    this.score += this.autoRate
   }
 
   changeFrame = () => {
@@ -270,13 +270,9 @@ class Play extends Component {
     console.log(typeof this.spriteL[0][0])
     p5.textSize(20)
     p5.textFont(this.gameFont)
-    p5.image(
-      this.bg_img[this.autoRateUpgrade.indexOf(this.autoRate)],
-      0,
-      0,
-      1000,
-      550
-    )
+    let bg_index = this.autoRateUpgrade.indexOf(this.autoRate)
+    bg_index = bg_index > 0 ? bg_index : 0
+    p5.image(this.bg_img[bg_index], 0, 0, 1000, 550)
     p5.image(
       this.vfx[this.vfx_index],
       this.heartX - 150,
@@ -293,7 +289,6 @@ class Play extends Component {
     p5.text(this.clickRate, 330, 50)
     p5.text("A. Rate .", 460, 50)
     p5.text(this.autoRate, 540, 50)
-
     p5.image(
       this.heart_img[this.heart_frame],
       this.heartX - (this.heart_x * this.heart_scale) / 2,
@@ -367,7 +362,7 @@ class Play extends Component {
       p5.mouseY > this.heartY - this.heart_y / 2 &&
       p5.mouseY < this.heartY + this.heart_y / 2
     ) {
-      // this.score += this.clickRate
+      this.score += this.clickRate
       this.heart_frame++
       if (this.heart_frame >= 6) {
         this.heart_frame = 0
@@ -397,8 +392,8 @@ class Play extends Component {
     ) {
       this.currentClickRateIndex = this.clickRateUpgrade.indexOf(this.clickRate)
       if (this.score >= this.costClickRateUpgrade[this.currentClickRateIndex]) {
-        // this.clickRate = this.clickRateUpgrade[this.currentClickRateIndex + 1]
-        // this.score -= this.costClickRateUpgrade[this.currentClickRateIndex]
+        this.clickRate = this.clickRateUpgrade[this.currentClickRateIndex + 1]
+        this.score -= this.costClickRateUpgrade[this.currentClickRateIndex]
       } else alert("Not Enough Score!!")
       this.btnl_scale += 0.1
     }
@@ -414,7 +409,7 @@ class Play extends Component {
       if (this.score >= this.costAutoRateUpgrade[this.currentAutoRateIndex]) {
         this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1]
         this.setState({ autoRate: this.autoRate })
-        // this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
+        this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
       } else alert("Not Enough Score!!")
       this.btnr_scale += 0.1
     }
@@ -427,16 +422,20 @@ class Play extends Component {
           preload={this.preload}
           setup={this.setup}
           draw={this.draw}
-          mousePressed={this.mousePressed}
+          mousePressed={() => {
+            console.log(this.mousePressed)
+          }}
         />
         <Interval
           name="autoRate_click"
-          timeout={1000 / this.state.autoRate}
+          timeout={
+            1000 / this.state.autoRate < 80 ? 80 : 1000 / this.state.autoRate
+          }
           enabled={this.state.autoRate}
           callback={() => {
             console.log("Clicking")
             //click heart
-            // this.score++
+            this.score++
             this.heart_frame++
             if (this.heart_frame >= 6) {
               this.heart_frame = 0
