@@ -21,7 +21,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    this.tokenLogin(localStorage.getItem("token"))
+    if (localStorage.getItem("token") !== "")
+      this.tokenLogin(localStorage.getItem("token"))
   }
 
   componentDidUpdate() {}
@@ -177,7 +178,7 @@ class Login extends Component {
     try {
       resp = await axios.get("/users/me/logout")
       if (resp.data.token) {
-        this.props.setSession({ loggedIn: false })
+        this.props.setSession({ loggedIn: false, token: "" })
       }
     } catch (error) {
       resp = error
