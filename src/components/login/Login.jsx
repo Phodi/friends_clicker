@@ -21,11 +21,20 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (
-      localStorage.getItem("token") !== "" &&
-      localStorage.getItem("token") !== undefined
-    )
+    if (localStorage["token"] !== "null") {
+      // console.log("token is " + localStorage["token"])
       this.tokenLogin(localStorage.getItem("token"))
+    } else {
+      console.log("no token")
+    }
+    // if (
+    //   "token" in localStorage &&
+    //   localStorage.getItem("token") !== "" &&
+    //   localStorage.getItem("token") !== undefined
+    // ) {
+    //   console.log("Auto Login")
+    //   this.tokenLogin(localStorage.getItem("token"))
+    // }
   }
 
   componentDidUpdate() {}
@@ -181,7 +190,7 @@ class Login extends Component {
     try {
       resp = await axios.get("/users/me/logout")
       if (resp.data.token) {
-        this.props.setSession({ loggedIn: false, token: "" })
+        this.props.setSession({ loggedIn: false, token: "null" })
       }
     } catch (error) {
       resp = error
