@@ -48,11 +48,11 @@ class Play extends Component {
 
   finalReport = (resp) => {
     if (resp.data) {
-      //if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
-      //if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
+      if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
+      if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
     } else {
       //Failed to connect
-      //this.props.alert("danger", "Error!", "Failed to connect to the API")
+      this.props.alert("danger", "Error!", "Failed to connect to the API")
     }
   }
   loadStats = async () => {
@@ -160,7 +160,7 @@ class Play extends Component {
   spriteR_04 = []
   spriteR_05 = []
   max_sprite_frame = [2, 2, 2, 2, 6, 8]
-  moving_space = [2,4,6,8,10,12,14,16,18,20]
+  moving_space = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
   spriteL = [
     this.spriteL_00,
     this.spriteL_01,
@@ -558,8 +558,12 @@ class Play extends Component {
                 this.spriteL_posX = this.gameWidth / 10
                 this.spriteR_posX = (this.gameWidth * 9) / 10
               } else {
-                this.spriteL_posX += this.moving_space[this.currentClickRateIndex]
-                this.spriteR_posX -= this.moving_space[this.currentClickRateIndex]
+                this.spriteL_posX += this.moving_space[
+                  this.currentClickRateIndex
+                ]
+                this.spriteR_posX -= this.moving_space[
+                  this.currentClickRateIndex
+                ]
               }
             }
             this.heart_scale += 0.2
@@ -570,7 +574,7 @@ class Play extends Component {
           enabled={true}
           callback={this.changeFrame}
         ></Interval>
-                    {this.state.processing ? (
+        {this.state.processing ? (
           <div>Saving</div>
         ) : (
           <div onClick={this.updateStats}>
