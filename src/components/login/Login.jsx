@@ -21,7 +21,10 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem("token") !== "")
+    if (
+      localStorage.getItem("token") !== "" &&
+      localStorage.getItem("token") !== undefined
+    )
       this.tokenLogin(localStorage.getItem("token"))
   }
 
