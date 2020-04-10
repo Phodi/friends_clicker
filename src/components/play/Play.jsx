@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Interval from "react-interval"
 import Sketch from "react-p5"
+import Sound from "react-sound"
 import "./play.css"
 
 const numeral = require("numeral")
@@ -194,6 +195,13 @@ class Play extends Component {
 
   currentClickRateIndex = 0
   currentAutoRateIndex = 0
+
+  //sound
+  bg_sound = []
+  btnl_sound
+  btnr_sound
+  heart_sound
+  meet_sound
 
   everySecond = () => {
     this.score += this.autoRate
@@ -527,6 +535,7 @@ class Play extends Component {
           callback={this.changeFrame}
         ></Interval>
       </div>
+      
     )
   }
 }
