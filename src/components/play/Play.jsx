@@ -12,15 +12,12 @@ class Play extends Component {
     super(props)
 
     this.state = {
-      score: 0,
-      clickRate: 1,
-      autoRate: 0,
       processing: false,
     }
 
-    this.score = 0
-    this.clickRate = 1
-    this.autoRate = 0
+    this.score = this.props.session.user.stats.currentScore
+    this.clickRate = this.props.session.user.stats.clickRate
+    this.autoRate = this.props.session.user.stats.autoRate
 
     //SoundControl
     this.state.soundUrls = [
@@ -46,6 +43,16 @@ class Play extends Component {
     ] = false
   }
 
+  componentWillMount() {
+    if (this.props.session.loggedIn) {
+      this.loadStats()
+    }
+  }
+  componentWillUnmount = async () => {
+    console.log("WillUnMOunt")
+    await this.updateStats()
+  }
+
   finalReport = (resp) => {
     if (resp.data) {
       if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
@@ -56,6 +63,7 @@ class Play extends Component {
     }
   }
   loadStats = async () => {
+    console.log("LOAD STATS")
     const axios = this.props.session.axios
     this.setState({ processing: true })
     let resp = null
@@ -101,10 +109,12 @@ class Play extends Component {
       })
       if (resp.data) {
         if (resp.data.data) {
-          this.setState({
-            score: resp.data.data.currentScore,
-            clickRate: resp.data.data.clickRate,
-            autoRate: resp.data.data.autoRate,
+          this.props.setSession({
+            stats: {
+              currentScore: resp.data.data.currentScore,
+              clickRate: resp.data.data.clickRate,
+              autoRate: resp.data.data.autoRate,
+            },
           })
           this.score = resp.data.data.currentScore
           this.clickRate = resp.data.data.clickRate
@@ -118,10 +128,6 @@ class Play extends Component {
       this.finalReport(resp)
       this.setState({ processing: false })
     }
-  }
-
-  componentDidMount() {
-    this.loadStats()
   }
 
   soundSet = (url, play) => {
@@ -518,13 +524,16 @@ class Play extends Component {
   render() {
     if (!this.props.session.loggedIn) {
       return (
-        <div className="container" style={{ color: "white", "font-size": "24px" ,"margin-top":"250px","margin-bottom":"auto"}} >
-          <div
-            className="row justify-content-center"
-            
-          >
-            Please login first
-          </div>
+        <div
+          className="container"
+          style={{
+            color: "white",
+            "font-size": "24px",
+            "margin-top": "250px",
+            "margin-bottom": "auto",
+          }}
+        >
+          <div className="row justify-content-center">Please login first</div>
         </div>
       )
     }
