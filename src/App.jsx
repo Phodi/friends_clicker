@@ -98,6 +98,7 @@ class App extends Component {
                 <Homepage
                   session={this.state.session}
                   setSession={this.setSession}
+                  alert={this.generateAlert}
                 ></Homepage>
               )}
             ></Route>
@@ -108,6 +109,7 @@ class App extends Component {
                 <Play
                   session={this.state.session}
                   setSession={this.setSession}
+                  alert={this.generateAlert}
                 ></Play>
               )}
             ></Route>
@@ -128,6 +130,7 @@ class App extends Component {
                 <About
                   session={this.state.session}
                   setSession={this.setSession}
+                  alert={this.generateAlert}
                 ></About>
               )}
             ></Route>
