@@ -160,6 +160,7 @@ class Play extends Component {
   spriteR_04 = []
   spriteR_05 = []
   max_sprite_frame = [2, 2, 2, 2, 6, 8]
+  moving_space = [2,4,6,8,10,12,14,16,18,20]
   spriteL = [
     this.spriteL_00,
     this.spriteL_01,
@@ -467,8 +468,8 @@ class Play extends Component {
             this.sprite_index = 0
           }
         } else {
-          this.spriteL_posX += 10
-          this.spriteR_posX -= 10
+          this.spriteL_posX += this.moving_space[this.currentClickRateIndex]
+          this.spriteR_posX -= this.moving_space[this.currentClickRateIndex]
         }
       }
       this.heart_scale += 0.2
@@ -557,8 +558,8 @@ class Play extends Component {
                 this.spriteL_posX = this.gameWidth / 10
                 this.spriteR_posX = (this.gameWidth * 9) / 10
               } else {
-                this.spriteL_posX += 4
-                this.spriteR_posX -= 4
+                this.spriteL_posX += this.moving_space[this.currentClickRateIndex]
+                this.spriteR_posX -= this.moving_space[this.currentClickRateIndex]
               }
             }
             this.heart_scale += 0.2
