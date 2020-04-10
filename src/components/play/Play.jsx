@@ -222,10 +222,9 @@ class Play extends Component {
     800000,
     3000000,
     10000000,
-    100000000,
   ]
 
-  autoRateUpgrade = [0, 1, 2, 4, 15, 50, 150]
+  autoRateUpgrade = [0, 1, 2, 4, 15, 50, 150,500]
   costAutoRateUpgrade = [1000, 5000, 34000, 200000, 750000, 3875000, 25000000]
 
   currentClickRateIndex = 0
@@ -350,7 +349,10 @@ class Play extends Component {
     p5.textFont(this.gameFont)
     let bg_index = this.autoRateUpgrade.indexOf(this.autoRate)
     bg_index = bg_index > 0 ? bg_index : 0
-    p5.image(this.bg_img[bg_index], 0, 0, 1000, 550)
+    if(bg_index >= 6){
+      p5.image(this.bg_img[6], 0, 0, 1000, 550)
+    }
+    else p5.image(this.bg_img[bg_index], 0, 0, 1000, 550)
     p5.image(
       this.vfx[this.vfx_index],
       this.heartX - 150,
@@ -387,12 +389,22 @@ class Play extends Component {
       this.btnl_x * this.btnl_scale,
       this.btnl_y * this.btnl_scale
     )
+    //Click Rate Upgrade Label text
     p5.text("Upgrade Click Rate .", this.btnlX - 160, this.btnlY + 18)
-    p5.text(
-      this.costClickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)],
-      this.btnlX + 50,
-      this.btnlY + 18
-    )
+    if(isNaN(this.costClickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)])){
+      p5.text(
+        "Max",
+        this.btnlX + 50,
+        this.btnlY + 18
+      )
+    }
+    else{
+      p5.text(
+        this.costClickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)],
+        this.btnlX + 50,
+        this.btnlY + 18
+      )
+    }
     p5.image(
       this.btnr_img,
       this.btnrX - (this.btnr_x * this.btnr_scale) / 2,
@@ -400,20 +412,49 @@ class Play extends Component {
       this.btnr_x * this.btnr_scale,
       this.btnr_y * this.btnr_scale
     )
-    p5.text(
-      this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)],
-      this.btnrX + 50,
-      this.btnrY + 18
-    )
+     //Click Auto Upgrade Label text
+    if(isNaN(this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)])){
+        p5.text(
+          "Max",
+          this.btnrX + 50,
+          this.btnrY + 18
+        )
+    }
+    else {
+      p5.text(
+        this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)],
+        this.btnrX + 50,
+        this.btnrY + 18
+      )
+    }
     p5.text("Upgrade Auto Rate .", this.btnrX - 160, this.btnrY + 18)
     p5.textSize(15)
     p5.text("Next Rate .", this.btnlX + 55, this.btnlY - 32)
-    p5.text(
-      this.clickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate) + 1],
-      this.btnlX + 140,
-      this.btnlY - 32
-    )
+
+    //Side Click Rate Upgrade Label text
+    if(isNaN(this.clickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate) + 1])){
+      p5.text(
+        "Max",
+        this.btnlX + 140,
+        this.btnlY - 32
+      )
+      }
+    else{
+      p5.text(
+        this.clickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate) + 1],
+        this.btnlX + 140,
+        this.btnlY - 32
+      )
+    }
     p5.text("Next Rate .", this.btnrX + 55, this.btnlY - 32)
+    //Side Auto Rate Upgrade Label text
+    if(isNaN(this.autoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate) + 1])){
+      p5.text(
+        "Max",
+        this.btnrX + 140,
+        this.btnrY - 32
+      )
+    }
     p5.text(
       this.autoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate) + 1],
       this.btnrX + 140,
@@ -502,16 +543,21 @@ class Play extends Component {
       p5.mouseY < this.gameHeight - 25
     ) {
       this.currentAutoRateIndex = this.autoRateUpgrade.indexOf(this.autoRate)
-      if (this.score >= this.costAutoRateUpgrade[this.currentAutoRateIndex]) {
-        this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1]
-        this.setState({ autoRate: this.autoRate })
-        this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
-        this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.STOPPED)
-        this.soundSet("/game/sound/sfx/btn_l.wav", Sound.status.STOPPED)
-        this.soundSet("/game/sound/sfx/meet.wav", Sound.status.STOPPED)
-        this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.PLAYING)
-      } else alert("Not Enough Score!!")
-      this.btnr_scale += 0.1
+      if(isNaN(this.costAutoRateUpgrade[this.currentAutoRateIndex])){
+        alert("You are Maximum Upgrade now")
+      }
+      else{
+        if (this.score >= this.costAutoRateUpgrade[this.currentAutoRateIndex]) {
+          this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1]
+          this.setState({ autoRate: this.autoRate })
+          this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
+          this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.STOPPED)
+          this.soundSet("/game/sound/sfx/btn_l.wav", Sound.status.STOPPED)
+          this.soundSet("/game/sound/sfx/meet.wav", Sound.status.STOPPED)
+          this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.PLAYING)
+        } else alert("Not Enough Score!!")
+        this.btnr_scale += 0.1
+      }
     }
   }
 
