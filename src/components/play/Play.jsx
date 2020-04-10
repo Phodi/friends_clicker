@@ -91,6 +91,7 @@ class Play extends Component {
   }
 
   updateStats = async () => {
+    if (!this.props.session.loggedIn) return
     this.setState({
       score: this.score,
       clickRate: this.clickRate,
