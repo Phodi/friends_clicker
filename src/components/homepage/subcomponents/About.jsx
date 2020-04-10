@@ -19,14 +19,13 @@ class About extends Component {
                 This game is boy love simulation story abou how to get in relationship 
                 with other guy with click mouse
               </div>
-              <Accordion>     
-              <Accordion.Toggle as={Button} variant="link" eventKey="0">
+             
+              
               <button type="button" className="btn btn-primary">
                How to play?
               </button>
-              </Accordion.Toggle>
-              <Accordion.Collapse eventKey="0">
-                <Card style={{"background-color": "rgba(255,255,255,0.7)"}}>
+              
+              <Card style={{"background-color": "rgba(255,255,255,0.7)"}}>
               <Card.Body> <div className="col-md-12">
                         <div className="col-md-12">
                           <p style={{color: "black"}}>
@@ -49,9 +48,9 @@ class About extends Component {
               </div>
               </Card.Body>
               </Card>
-              </Accordion.Collapse>
               
-              </Accordion>
+              
+              
             </div>
             <div className="col-md-6">
               <p>Easy To Play</p>
