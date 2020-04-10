@@ -518,10 +518,10 @@ class Play extends Component {
   render() {
     if (!this.props.session.loggedIn) {
       return (
-        <div className="container">
+        <div className="container" style={{ color: "white", "font-size": "24px" ,"margin-top":"250px","margin-bottom":"auto"}} >
           <div
-            className="row justify-content-center my-3 py-3"
-            style={{ color: "white", "font-size": "24px" }}
+            className="row justify-content-center"
+            
           >
             Please login first
           </div>

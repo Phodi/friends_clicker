@@ -30,7 +30,7 @@ class About extends Component {
                           
                           </p>
                           <div className="mb-3" >
-                        <GifPlayer gif="./img/ezgif-7-517d28a1c5ba.gif" still="./img/ezgif-7-517d28a1c5ba.jpg" style={{'borderRadius':'5px' ,'margin-left':'40px'}} />
+                        <GifPlayer gif="./img/heart.gif" still="./img/heart.jpg" style={{'borderRadius':'5px' ,'margin-left':'40px'}} />
                         </div>
                         </div>
                         <div className="col-md-12">
