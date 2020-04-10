@@ -125,12 +125,14 @@ class Login extends Component {
         if (resp.data.user) {
           console.log("userInfo: ", resp.data.user)
           this.props.setSession({ loggedIn: true, user: resp.data.user })
+        } else {
+          this.props.setSession({ loggedIn: false, token: "null" })
         }
       }
     } catch (error) {
       resp = error
       console.log("error: " + error)
-      this.props.setSession({ loggedIn: false })
+      this.props.setSession({ loggedIn: false, token: "null" })
     } finally {
       this.finalReport(resp)
 
