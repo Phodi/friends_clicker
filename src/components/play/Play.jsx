@@ -231,7 +231,7 @@ class Play extends Component {
     10000000,
   ]
 
-  autoRateUpgrade = [0, 1, 2, 4, 15, 50, 150,500]
+  autoRateUpgrade = [0, 1, 2, 4, 15, 50, 150, 500]
   costAutoRateUpgrade = [1000, 5000, 34000, 200000, 750000, 3875000, 25000000]
 
   currentClickRateIndex = 0
@@ -356,10 +356,9 @@ class Play extends Component {
     p5.textFont(this.gameFont)
     let bg_index = this.autoRateUpgrade.indexOf(this.autoRate)
     bg_index = bg_index > 0 ? bg_index : 0
-    if(bg_index >= 6){
+    if (bg_index >= 6) {
       p5.image(this.bg_img[6], 0, 0, 1000, 550)
-    }
-    else p5.image(this.bg_img[bg_index], 0, 0, 1000, 550)
+    } else p5.image(this.bg_img[bg_index], 0, 0, 1000, 550)
     p5.image(
       this.vfx[this.vfx_index],
       this.heartX - 150,
@@ -398,16 +397,17 @@ class Play extends Component {
     )
     //Click Rate Upgrade Label text
     p5.text("Upgrade Click Rate .", this.btnlX - 160, this.btnlY + 18)
-    if(isNaN(this.costClickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)])){
-      p5.text(
-        "Max",
-        this.btnlX + 50,
-        this.btnlY + 18
+    if (
+      isNaN(
+        this.costClickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)]
       )
-    }
-    else{
+    ) {
+      p5.text("Max", this.btnlX + 50, this.btnlY + 18)
+    } else {
       p5.text(
-        this.costClickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate)],
+        this.costClickRateUpgrade[
+          this.clickRateUpgrade.indexOf(this.clickRate)
+        ],
         this.btnlX + 50,
         this.btnlY + 18
       )
@@ -419,15 +419,14 @@ class Play extends Component {
       this.btnr_x * this.btnr_scale,
       this.btnr_y * this.btnr_scale
     )
-     //Click Auto Upgrade Label text
-    if(isNaN(this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)])){
-        p5.text(
-          "Max",
-          this.btnrX + 50,
-          this.btnrY + 18
-        )
-    }
-    else {
+    //Click Auto Upgrade Label text
+    if (
+      isNaN(
+        this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)]
+      )
+    ) {
+      p5.text("Max", this.btnrX + 50, this.btnrY + 18)
+    } else {
       p5.text(
         this.costAutoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate)],
         this.btnrX + 50,
@@ -439,28 +438,29 @@ class Play extends Component {
     p5.text("Next Rate .", this.btnlX + 55, this.btnlY - 32)
 
     //Side Click Rate Upgrade Label text
-    if(isNaN(this.clickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate) + 1])){
-      p5.text(
-        "Max",
-        this.btnlX + 140,
-        this.btnlY - 32
+    if (
+      isNaN(
+        this.clickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate) + 1]
       )
-      }
-    else{
+    ) {
+      p5.text("Max", this.btnlX + 140, this.btnlY - 32)
+    } else {
       p5.text(
-        this.clickRateUpgrade[this.clickRateUpgrade.indexOf(this.clickRate) + 1],
+        this.clickRateUpgrade[
+          this.clickRateUpgrade.indexOf(this.clickRate) + 1
+        ],
         this.btnlX + 140,
         this.btnlY - 32
       )
     }
     p5.text("Next Rate .", this.btnrX + 55, this.btnlY - 32)
     //Side Auto Rate Upgrade Label text
-    if(isNaN(this.autoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate) + 1])){
-      p5.text(
-        "Max",
-        this.btnrX + 140,
-        this.btnrY - 32
+    if (
+      isNaN(
+        this.autoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate) + 1]
       )
+    ) {
+      p5.text("Max", this.btnrX + 140, this.btnrY - 32)
     }
     p5.text(
       this.autoRateUpgrade[this.autoRateUpgrade.indexOf(this.autoRate) + 1],
@@ -550,10 +550,9 @@ class Play extends Component {
       p5.mouseY < this.gameHeight - 25
     ) {
       this.currentAutoRateIndex = this.autoRateUpgrade.indexOf(this.autoRate)
-      if(isNaN(this.costAutoRateUpgrade[this.currentAutoRateIndex])){
+      if (isNaN(this.costAutoRateUpgrade[this.currentAutoRateIndex])) {
         alert("You are Maximum Upgrade now")
-      }
-      else{
+      } else {
         if (this.score >= this.costAutoRateUpgrade[this.currentAutoRateIndex]) {
           this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1]
           this.setState({ autoRate: this.autoRate })
@@ -609,15 +608,21 @@ class Play extends Component {
           callback={this.updateStats}
         ></Interval>
         <Interval
+          name="autoRate_score"
+          timeout={1000 / this.state.autoRate}
+          enabled={this.state.autoRate}
+          callback={() => {
+            this.score++
+          }}
+        ></Interval>
+        <Interval
           name="autoRate_click"
           timeout={
             1000 / this.state.autoRate < 80 ? 80 : 1000 / this.state.autoRate
           }
           enabled={this.state.autoRate}
           callback={() => {
-            console.log("Clicking")
             //click heart
-            this.score++
             this.heart_frame++
             if (this.heart_frame >= 6) {
               this.heart_frame = 0
