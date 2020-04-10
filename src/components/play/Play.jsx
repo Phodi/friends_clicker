@@ -534,7 +534,6 @@ class Play extends Component {
           enabled={true}
           callback={this.changeFrame}
         ></Interval>
-    />
       </div>
       
     )
