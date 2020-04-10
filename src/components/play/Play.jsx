@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import Interval from "react-interval"
 import Sketch from "react-p5"
 import Sound from "react-sound"
+import SoundControl from "./SoundControl"
 import "./play.css"
 
 const numeral = require("numeral")
@@ -20,6 +21,36 @@ class Play extends Component {
     this.score = 0
     this.clickRate = 1
     this.autoRate = 0
+
+    //SoundControl
+    this.state.soundUrls = [
+      "/game/sound/0.mp3",
+      "/game/sound/1.mp3",
+      "/game/sound/2.mp3",
+      "/game/sound/3.mp3",
+      "/game/sound/4.mp3",
+      "/game/sound/5.mp3",
+      "/game/sound/6.mp3",
+      "/game/sound/sfx/btn_l.wav",
+      "/game/sound/sfx/btn_r.wav",
+      "/game/sound/sfx/heart.wav",
+      "/game/sound/sfx/meet.wav",
+    ]
+    this.state.playStatus = this.state.soundUrls.map(() => Sound.status.STOPPED) //SetPlay
+
+    this.state.soundLoop = this.state.soundUrls.map(() => true) //SetLoop
+    this.state.soundLoop[
+      this.state.soundUrls.indexOf("/game/sound/sfx/btn_l.wav")
+    ] = false
+    this.state.soundLoop[
+      this.state.soundUrls.indexOf("/game/sound/sfx/btn_r.wav")
+    ] = false
+    this.state.soundLoop[
+      this.state.soundUrls.indexOf("/game/sound/sfx/heart.wav")
+    ] = false
+    this.state.soundLoop[
+      this.state.soundUrls.indexOf("/game/sound/sfx/meet.wav")
+    ] = false
   }
 
   finalReport = (resp) => {
@@ -98,6 +129,16 @@ class Play extends Component {
 
   componentDidMount() {
     this.loadStats()
+  }
+
+  soundSet = (url, play) => {
+    const { playStatus, soundUrls } = this.state
+
+    const tempStatus = [...playStatus]
+    const index = soundUrls.indexOf(url)
+    if (index >= 0 && index < playStatus.length) tempStatus[index] = play
+
+    this.setState({ playStatus: tempStatus })
   }
 
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
@@ -418,6 +459,7 @@ class Play extends Component {
       p5.mouseY > this.heartY - this.heart_y / 2 &&
       p5.mouseY < this.heartY + this.heart_y / 2
     ) {
+      this.soundSet("/game/sound/sfx/heart.wav", Sound.status.PLAYING)
       this.score += this.clickRate
       this.heart_frame++
       if (this.heart_frame >= 6) {
@@ -489,6 +531,12 @@ class Play extends Component {
           </div>
         )}
         <div className="row">
+          <SoundControl
+            soundUrls={this.state.soundUrls}
+            playStatus={this.state.playStatus}
+            soundLoop={this.state.soundLoop}
+            setPlayStatus={this.soundSet}
+          ></SoundControl>
           <div id="canvas-container" className="d-flex justify-content-center">
             <Sketch
               preload={this.preload}
@@ -535,7 +583,6 @@ class Play extends Component {
           callback={this.changeFrame}
         ></Interval>
       </div>
-      
     )
   }
 }

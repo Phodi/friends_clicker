@@ -8,11 +8,6 @@ class SoundControl extends Component {
       soundsLoaded: 0,
     }
   }
-  onLoad = () => {
-    this.setState({ soundsLoaded: this.state.soundsLoaded + 1 })
-    if (this.state.soundsLoaded >= this.props.soundUrls.length)
-      this.props.onLoadFinished()
-  }
   render() {
     return (
       <div>
@@ -21,7 +16,13 @@ class SoundControl extends Component {
             url={url}
             playStatus={this.props.playStatus[index]}
             playFromPosition={0}
-            onLoad={this.onLoad}
+            onFinishedPlaying={() => {
+              if (this.props.soundLoop[index]) {
+                this.props.setPlayStatus(url, Sound.status.PLAYING)
+              } else {
+                this.props.setPlayStatus(url, Sound.status.STOPPED)
+              }
+            }}
           ></Sound>
         ))}
       </div>
