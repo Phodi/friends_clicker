@@ -25,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "buildMV": "react-scripts build && rm -rf D:\\Works\\WebDev\\clicker_api\\react_build && mv build D:\\Works\\WebDev\\clicker_api\\react_build",
+    "buildMV": "react-scripts build && rm -rf ../api/react_build && mv build ../api/react_build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

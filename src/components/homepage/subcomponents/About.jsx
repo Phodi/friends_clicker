@@ -18,31 +18,32 @@ class About extends Component {
               <div className="about-content">
                 This game is boy love simulation story abou how to get in relationship 
                 with other guy with click mouse
-              </div>
-             
-              
-              <button type="button" className="btn btn-primary">
-               How to play?
-              </button>
-              
+              </div> 
+              <br/>
               <Card style={{"background-color": "rgba(255,255,255,0.7)"}}>
-              <Card.Body> <div className="col-md-12">
+              <Card.Body> 
+                <div className="col-md-12">
                         <div className="col-md-12">
+                        <p style={{color: "black" , "font-size" : "50px"}}>How to play?</p>
                           <p style={{color: "black"}}>
-                          - Click a heart to get point 
+                          &nbsp; &nbsp; - Click a heart to get point 
+                          
                           </p>
-                          <div>
-                        <GifPlayer gif="./img/ezgif-7-517d28a1c5ba.gif" still="./img/ezgif-7-517d28a1c5ba.jpg" style={{'borderRadius':'5px'}} />
+                          <div className="mb-3" >
+                        <GifPlayer gif="./img/heart.gif" still="./img/heart.jpg" style={{'borderRadius':'5px' ,'margin-left':'40px'}} />
                         </div>
                         </div>
                         <div className="col-md-12">
                         <p style={{color: "black"}}>
-                          <br/>
-                        - Click this upgrade to get better point
+                          
+                          &nbsp; &nbsp; - Click this upgrade to get better point
                         
-                        <img src="./img/upgrade.jpg" alt="" width="50%" height="auto" /> 
-                        <br/> <br/> - Click this upgrad to get auto point
-                        <img src="./img/auto.jpg" alt="" width="50%" height="auto" />
+                        <img src="./img/upgrade.png" alt="" width="50%" height="auto" style={{'borderRadius':'5px' ,'margin-left':'40px','margin-top':'20px'}} /> 
+
+                        <br/> <br/>  &nbsp; &nbsp;- Click this upgrade to get auto point
+
+                        <img src="./img/auto.png" alt="" width="50%" height="auto" style={{'borderRadius':'5px' ,'margin-left':'40px','margin-top':'20px'}} />
+
                         </p>
                         </div>
               </div>

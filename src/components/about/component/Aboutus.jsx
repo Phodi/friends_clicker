@@ -11,17 +11,17 @@ class Aboutus extends Component{
        return(
         <div className="ma-2">
           <center>
-          <h1>Our Team</h1>
+          <h1 className="mt-3 text-white">Our Team</h1>
             <div class ="container">
               <div class="row">
                 <div class="col-md-4">
                 <Fade top>
                   <div class="list-group-item list-group-item-action" role="tab">
                   
-                  <Card>
+                  <Card className="mt-5">
                   
                     
-                  <img src="./img/image0.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/594.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   <Card.Body>
@@ -43,19 +43,19 @@ class Aboutus extends Component{
                 <div class="list-group-item list-group-item-action" role="tab">
                   {/* <img src="./img/hqdefault.jpg" alt=""/> */}
                   
-                  <Card>
+                  <Card className="mt-6">
                 
                     
-                  <img src="./img/IMG_25610806_181527.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/597.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
                   <Card.Body>
-                  <div>
+                  
                   <Flip left cascade>
                   <p> Parinya Khongkhaphet 610610597 </p>
                   </Flip>
-                  </div>
+                  
                   </Card.Body>
                   
                   </Card>
@@ -68,18 +68,20 @@ class Aboutus extends Component{
               <Fade top cascade collapse >
                 <div class="list-group-item list-group-item-action" role="tab">
                 
-                <Card>
+                <Card className="mt-5">
                   
                     
-                  <img src="./img/image.jpg" width="100%" height="auto" alt=""/>
+                  <img src="./img/601.jpg" width="100%" height="auto" alt=""/>
                   
                   
                   
-                  <Card.Body><div>
+                  <Card.Body>
+                  <div>
                   <Flip left cascade>
                   <p> Phodi Phoocharoen 610610601</p>
                   </Flip>
-                  </div></Card.Body>
+                  </div>
+                  </Card.Body>
                   
                   </Card>
                   
