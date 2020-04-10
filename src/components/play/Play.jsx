@@ -24,13 +24,6 @@ class Play extends Component {
 
     //SoundControl
     this.state.soundUrls = [
-      "/game/sound/0.mp3",
-      "/game/sound/1.mp3",
-      "/game/sound/2.mp3",
-      "/game/sound/3.mp3",
-      "/game/sound/4.mp3",
-      "/game/sound/5.mp3",
-      "/game/sound/6.mp3",
       "/game/sound/sfx/btn_l.wav",
       "/game/sound/sfx/btn_r.wav",
       "/game/sound/sfx/heart.wav",
@@ -55,11 +48,11 @@ class Play extends Component {
 
   finalReport = (resp) => {
     if (resp.data) {
-      if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
-      if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
+      //if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
+      //if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
     } else {
       //Failed to connect
-      this.props.alert("danger", "Error!", "Failed to connect to the API")
+      //this.props.alert("danger", "Error!", "Failed to connect to the API")
     }
   }
   loadStats = async () => {
@@ -236,13 +229,6 @@ class Play extends Component {
 
   currentClickRateIndex = 0
   currentAutoRateIndex = 0
-
-  //sound
-  bg_sound = []
-  btnl_sound
-  btnr_sound
-  heart_sound
-  meet_sound
 
   everySecond = () => {
     this.score += this.autoRate
@@ -459,6 +445,9 @@ class Play extends Component {
       p5.mouseY > this.heartY - this.heart_y / 2 &&
       p5.mouseY < this.heartY + this.heart_y / 2
     ) {
+      this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.STOPPED)
+      this.soundSet("/game/sound/sfx/btn_l.wav", Sound.status.STOPPED)
+      this.soundSet("/game/sound/sfx/meet.wav", Sound.status.STOPPED)
       this.soundSet("/game/sound/sfx/heart.wav", Sound.status.PLAYING)
       this.score += this.clickRate
       this.heart_frame++
@@ -468,6 +457,10 @@ class Play extends Component {
         if (this.heartX - this.spriteL_posX <= 120) {
           this.spriteL_posX = this.gameWidth / 10
           this.spriteR_posX = (this.gameWidth * 9) / 10
+          this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.STOPPED)
+          this.soundSet("/game/sound/sfx/btn_l.wav", Sound.status.STOPPED)
+          this.soundSet("/game/sound/sfx/meet.wav", Sound.status.STOPPED)
+          this.soundSet("/game/sound/sfx/meet.wav", Sound.status.PLAYING)
           if (this.sprite_index_set < 5) this.sprite_index_set += 1
           else {
             this.sprite_index_set = 0
@@ -492,6 +485,10 @@ class Play extends Component {
       if (this.score >= this.costClickRateUpgrade[this.currentClickRateIndex]) {
         this.clickRate = this.clickRateUpgrade[this.currentClickRateIndex + 1]
         this.score -= this.costClickRateUpgrade[this.currentClickRateIndex]
+        this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.STOPPED)
+        this.soundSet("/game/sound/sfx/btn_l.wav", Sound.status.STOPPED)
+        this.soundSet("/game/sound/sfx/meet.wav", Sound.status.STOPPED)
+        this.soundSet("/game/sound/sfx/btn_l.wav", Sound.status.PLAYING)
       } else alert("Not Enough Score!!")
       this.btnl_scale += 0.1
     }
@@ -508,6 +505,10 @@ class Play extends Component {
         this.autoRate = this.autoRateUpgrade[this.currentAutoRateIndex + 1]
         this.setState({ autoRate: this.autoRate })
         this.score -= this.costAutoRateUpgrade[this.currentAutoRateIndex]
+        this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.STOPPED)
+        this.soundSet("/game/sound/sfx/btn_l.wav", Sound.status.STOPPED)
+        this.soundSet("/game/sound/sfx/meet.wav", Sound.status.STOPPED)
+        this.soundSet("/game/sound/sfx/btn_r.wav", Sound.status.PLAYING)
       } else alert("Not Enough Score!!")
       this.btnr_scale += 0.1
     }
@@ -516,20 +517,6 @@ class Play extends Component {
   render() {
     return (
       <div className="container">
-        {this.state.processing ? (
-          <div>Saving</div>
-        ) : (
-          <div onClick={this.updateStats}>
-            <span>
-              <img
-                className="img-fluid"
-                style={{ width: "1%", height: "auto" }}
-                src="/img/refresh-icon.png"
-              ></img>
-            </span>
-            Save
-          </div>
-        )}
         <div className="row">
           <SoundControl
             soundUrls={this.state.soundUrls}
@@ -582,6 +569,20 @@ class Play extends Component {
           enabled={true}
           callback={this.changeFrame}
         ></Interval>
+                    {this.state.processing ? (
+          <div>Saving</div>
+        ) : (
+          <div onClick={this.updateStats}>
+            <span>
+              <img
+                className="img-fluid"
+                style={{ width: "1%", height: "auto" }}
+                src="/img/refresh-icon.png"
+              ></img>
+            </span>
+            Save
+          </div>
+        )}
       </div>
     )
   }

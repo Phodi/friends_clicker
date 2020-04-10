@@ -18,7 +18,6 @@ class SoundControl extends Component {
             playFromPosition={0}
             onFinishedPlaying={() => {
               if (this.props.soundLoop[index]) {
-                this.props.setPlayStatus(url, Sound.status.PLAYING)
               } else {
                 this.props.setPlayStatus(url, Sound.status.STOPPED)
               }
