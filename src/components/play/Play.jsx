@@ -4,19 +4,103 @@ import Sketch from "react-p5"
 import Sound from "react-sound"
 import "./play.css"
 
+const numeral = require("numeral")
+
 class Play extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      score: 0,
+      clickRate: 1,
       autoRate: 0,
+      processing: false,
+    }
+
+    this.score = 0
+    this.clickRate = 1
+    this.autoRate = 0
+  }
+
+  finalReport = (resp) => {
+    if (resp.data) {
+      if (resp.data.error) this.props.alert("danger", "Error!", resp.data.error)
+      if (resp.data.msg) this.props.alert("info", "Message", resp.data.msg)
+    } else {
+      //Failed to connect
+      this.props.alert("danger", "Error!", "Failed to connect to the API")
+    }
+  }
+  loadStats = async () => {
+    const axios = this.props.session.axios
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.get("/stats")
+      if (resp.data) {
+        if (resp.data.data) {
+          this.setState({
+            score: resp.data.data.currentScore,
+            clickRate: resp.data.data.clickRate,
+            autoRate: resp.data.data.autoRate,
+          })
+          this.score = resp.data.data.currentScore
+          this.clickRate = resp.data.data.clickRate
+          this.autoRate = resp.data.data.autoRate
+        }
+      }
+    } catch (error) {
+      resp = error
+      console.log("error :", error)
+    } finally {
+      this.finalReport(resp)
+      this.setState({ processing: false })
     }
   }
 
+  updateStats = async () => {
+    this.setState({
+      score: this.score,
+      clickRate: this.clickRate,
+      autoRate: this.autoRate,
+    })
+    const axios = this.props.session.axios
+    this.setState({ processing: true })
+    let resp = null
+    try {
+      resp = await axios.put("/stats", {
+        data: {
+          currentScore: this.score,
+          clickRate: this.clickRate,
+          autoRate: this.autoRate,
+        },
+      })
+      if (resp.data) {
+        if (resp.data.data) {
+          this.setState({
+            score: resp.data.data.currentScore,
+            clickRate: resp.data.data.clickRate,
+            autoRate: resp.data.data.autoRate,
+          })
+          this.score = resp.data.data.currentScore
+          this.clickRate = resp.data.data.clickRate
+          this.autoRate = resp.data.data.autoRate
+        }
+      }
+    } catch (error) {
+      resp = error
+      console.log("error :", error)
+    } finally {
+      this.finalReport(resp)
+      this.setState({ processing: false })
+    }
+  }
+
+  componentDidMount() {
+    this.loadStats()
+  }
+
   //ประกาศฟังค์ชั่นที่จะใช้ไว้แถวๆนี้ (ข้างล่างนี้คือตัวอย่าง)
-  score = 0
-  clickRate = 1
-  autoRate = 0
 
   gameWidth = 1000
   gameHeight = 550
@@ -41,9 +125,23 @@ class Play extends Component {
   spriteR_03 = []
   spriteR_04 = []
   spriteR_05 = []
-  max_sprite_frame = [2,2,2,2,6,8]
-  spriteL = [this.spriteL_00,this.spriteL_01,this.spriteL_02,this.spriteL_03,this.spriteL_04,this.spriteL_05]
-  spriteR = [this.spriteR_00,this.spriteR_01,this.spriteR_02,this.spriteR_03,this.spriteR_04,this.spriteR_05]
+  max_sprite_frame = [2, 2, 2, 2, 6, 8]
+  spriteL = [
+    this.spriteL_00,
+    this.spriteL_01,
+    this.spriteL_02,
+    this.spriteL_03,
+    this.spriteL_04,
+    this.spriteL_05,
+  ]
+  spriteR = [
+    this.spriteR_00,
+    this.spriteR_01,
+    this.spriteR_02,
+    this.spriteR_03,
+    this.spriteR_04,
+    this.spriteR_05,
+  ]
   sprite_index_set = 0
   sprite_index = 0
   vfx = []
@@ -106,17 +204,16 @@ class Play extends Component {
   meet_sound
 
   everySecond = () => {
-    this.score += this.autoRate;
+    this.score += this.autoRate
   }
 
   changeFrame = () => {
     //vfx
-    if(this.vfx_index < 90)
-    this.vfx_index += 1
+    if (this.vfx_index < 90) this.vfx_index += 1
     else this.vfx_index = 0
     //sprite
-    if(this.sprite_index < this.max_sprite_frame[this.sprite_index_set] -1)
-    this.sprite_index += 1
+    if (this.sprite_index < this.max_sprite_frame[this.sprite_index_set] - 1)
+      this.sprite_index += 1
     else this.sprite_index = 0
   }
 
@@ -150,45 +247,69 @@ class Play extends Component {
 
     //Load sprite
     for (let index = 0; index < 2; index++) {
-      this.spriteL_00.push(p5.loadImage("/game/img/sprites/fly_l/"+index+".png"))
+      this.spriteL_00.push(
+        p5.loadImage("/game/img/sprites/fly_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_00.push(p5.loadImage("/game/img/sprites/fly_r/"+index+".png"))
+      this.spriteR_00.push(
+        p5.loadImage("/game/img/sprites/fly_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteL_01.push(p5.loadImage("/game/img/sprites/fly2_l/"+index+".png"))
+      this.spriteL_01.push(
+        p5.loadImage("/game/img/sprites/fly2_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_01.push(p5.loadImage("/game/img/sprites/fly2_r/"+index+".png"))
+      this.spriteR_01.push(
+        p5.loadImage("/game/img/sprites/fly2_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteL_02.push(p5.loadImage("/game/img/sprites/gg_bee_l/"+index+".png"))
+      this.spriteL_02.push(
+        p5.loadImage("/game/img/sprites/gg_bee_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_02.push(p5.loadImage("/game/img/sprites/gg_bee_r/"+index+".png"))
+      this.spriteR_02.push(
+        p5.loadImage("/game/img/sprites/gg_bee_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteL_03.push(p5.loadImage("/game/img/sprites/bat_l/"+index+".png"))
+      this.spriteL_03.push(
+        p5.loadImage("/game/img/sprites/bat_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 2; index++) {
-      this.spriteR_03.push(p5.loadImage("/game/img/sprites/bat_r/"+index+".png"))
+      this.spriteR_03.push(
+        p5.loadImage("/game/img/sprites/bat_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 6; index++) {
-      this.spriteL_04.push(p5.loadImage("/game/img/sprites/gp_bee_l/"+index+".png"))
+      this.spriteL_04.push(
+        p5.loadImage("/game/img/sprites/gp_bee_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 6; index++) {
-      this.spriteR_04.push(p5.loadImage("/game/img/sprites/gp_bee_r/"+index+".png"))
+      this.spriteR_04.push(
+        p5.loadImage("/game/img/sprites/gp_bee_r/" + index + ".png")
+      )
     }
     for (let index = 0; index < 8; index++) {
-      this.spriteL_05.push(p5.loadImage("/game/img/sprites/wolf_l/"+index+".png"))
+      this.spriteL_05.push(
+        p5.loadImage("/game/img/sprites/wolf_l/" + index + ".png")
+      )
     }
     for (let index = 0; index < 8; index++) {
-      this.spriteR_05.push(p5.loadImage("/game/img/sprites/wolf_r/"+index+".png"))
+      this.spriteR_05.push(
+        p5.loadImage("/game/img/sprites/wolf_r/" + index + ".png")
+      )
     }
 
     //load VFX
     for (let index = 0; index < 91; index++) {
-      this.vfx.push(p5.loadImage("/game/img/vfx/"+index+".png"))
+      this.vfx.push(p5.loadImage("/game/img/vfx/" + index + ".png"))
     }
   }
 
@@ -196,16 +317,12 @@ class Play extends Component {
     p5.createCanvas(this.gameWidth, this.gameHeight).parent(canvasParentRef)
   }
   draw = (p5) => {
-    console.log(typeof(this.spriteL[0][0]))
+    console.log(typeof this.spriteL[0][0])
     p5.textSize(20)
     p5.textFont(this.gameFont)
-    p5.image(
-      this.bg_img[this.autoRateUpgrade.indexOf(this.autoRate)],
-      0,
-      0,
-      1000,
-      550
-    )
+    let bg_index = this.autoRateUpgrade.indexOf(this.autoRate)
+    bg_index = bg_index > 0 ? bg_index : 0
+    p5.image(this.bg_img[bg_index], 0, 0, 1000, 550)
     p5.image(
       this.vfx[this.vfx_index],
       this.heartX - 150,
@@ -213,34 +330,21 @@ class Play extends Component {
       300,
       300
     )
-    p5.image(
-      this.lb_01,
-      10,
-      10,
-      200,
-      67
-    )
-    p5.image(
-      this.lb_02,
-      10 + 200 + 10,
-      10,
-      200,
-      67
-    )
-    p5.image(
-      this.lb_03,
-      10 + 200 + 10 + 200 + 10,
-      10,
-      200,
-      67
-    )
+    p5.image(this.lb_01, 10, 10, 200, 67)
+    p5.image(this.lb_02, 10 + 200 + 10, 10, 200, 67)
+    p5.image(this.lb_03, 10 + 200 + 10 + 200 + 10, 10, 200, 67)
     p5.text("Score .", 35, 50)
-    p5.text(this.score, 105, 50)
+    p5.text(
+      this.score > 999999
+        ? numeral(this.score).format("0[.]0[0] a")
+        : numeral(this.score).format("0"),
+      105,
+      50
+    )
     p5.text("C. Rate .", 250, 50)
     p5.text(this.clickRate, 330, 50)
     p5.text("A. Rate .", 460, 50)
     p5.text(this.autoRate, 540, 50)
-
     p5.image(
       this.heart_img[this.heart_frame],
       this.heartX - (this.heart_x * this.heart_scale) / 2,
@@ -322,8 +426,7 @@ class Play extends Component {
         if (this.heartX - this.spriteL_posX <= 120) {
           this.spriteL_posX = this.gameWidth / 10
           this.spriteR_posX = (this.gameWidth * 9) / 10
-          if(this.sprite_index_set < 5)
-          this.sprite_index_set +=1
+          if (this.sprite_index_set < 5) this.sprite_index_set += 1
           else {
             this.sprite_index_set = 0
             this.sprite_index = 0
@@ -370,16 +473,42 @@ class Play extends Component {
 
   render() {
     return (
-      <div id="canvas-container">
-        <Sketch
-          preload={this.preload}
-          setup={this.setup}
-          draw={this.draw}
-          mousePressed={this.mousePressed}
-        />
+      <div className="container">
+        {this.state.processing ? (
+          <div>Saving</div>
+        ) : (
+          <div onClick={this.updateStats}>
+            <span>
+              <img
+                className="img-fluid"
+                style={{ width: "1%", height: "auto" }}
+                src="/img/refresh-icon.png"
+              ></img>
+            </span>
+            Save
+          </div>
+        )}
+        <div className="row">
+          <div id="canvas-container" className="d-flex justify-content-center">
+            <Sketch
+              preload={this.preload}
+              setup={this.setup}
+              draw={this.draw}
+              mousePressed={this.mousePressed}
+            />
+          </div>
+        </div>
+        <Interval
+          name="autoSave"
+          timeout={10000}
+          enabled={true}
+          callback={this.updateStats}
+        ></Interval>
         <Interval
           name="autoRate_click"
-          timeout={1000 / this.state.autoRate}
+          timeout={
+            1000 / this.state.autoRate < 80 ? 80 : 1000 / this.state.autoRate
+          }
           enabled={this.state.autoRate}
           callback={() => {
             console.log("Clicking")
